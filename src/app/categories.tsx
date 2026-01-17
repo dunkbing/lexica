@@ -43,6 +43,7 @@ export default function CategoriesScreen() {
 
   const categories = useWordStore((s) => s.categories);
   const categoryGroups = useWordStore((s) => s.categoryGroups);
+  console.log({ categoryGroups });
   const words = useWordStore((s) => s.words);
   const loadWords = useWordStore((s) => s.loadWords);
   const setSelectedCategory = useWordStore((s) => s.setSelectedCategory);
@@ -61,7 +62,10 @@ export default function CategoriesScreen() {
 
   // Group categories by their groupId
   const groupedCategories = useMemo(() => {
-    const grouped = new Map<string, { group: CategoryGroup; categories: Category[] }>();
+    const grouped = new Map<
+      string,
+      { group: CategoryGroup; categories: Category[] }
+    >();
 
     for (const group of categoryGroups) {
       const groupCategories = categories.filter((c) => c.groupId === group.id);
@@ -86,7 +90,7 @@ export default function CategoriesScreen() {
       setSelectedCategory(categoryId);
       router.back();
     },
-    [setSelectedCategory, router]
+    [setSelectedCategory, router],
   );
 
   const handleAllWordsSelect = useCallback(() => {
@@ -100,7 +104,7 @@ export default function CategoriesScreen() {
         scrollY.value,
         [0, SCROLL_THRESHOLD],
         [1, 0],
-        Extrapolation.CLAMP
+        Extrapolation.CLAMP,
       ),
     };
   });
@@ -111,7 +115,7 @@ export default function CategoriesScreen() {
         scrollY.value,
         [SCROLL_THRESHOLD - 20, SCROLL_THRESHOLD],
         [0, 1],
-        Extrapolation.CLAMP
+        Extrapolation.CLAMP,
       ),
     };
   });
@@ -211,7 +215,11 @@ export default function CategoriesScreen() {
               { backgroundColor: cardBackground, borderColor },
             ]}
           >
-            <IconSymbol name="magnifyingglass" size={20} color={textSecondary} />
+            <IconSymbol
+              name="magnifyingglass"
+              size={20}
+              color={textSecondary}
+            />
             <TextInput
               style={[styles.searchInput, { color: textColor }]}
               placeholder={t("categories.searchTopics")}
@@ -237,10 +245,11 @@ export default function CategoriesScreen() {
                 style={[
                   styles.quickLinkItem,
                   { backgroundColor: cardBackground },
-                  link.id === "all" && selectedCategoryId === null && {
-                    borderWidth: 2,
-                    borderColor: primaryColor,
-                  },
+                  link.id === "all" &&
+                    selectedCategoryId === null && {
+                      borderWidth: 2,
+                      borderColor: primaryColor,
+                    },
                 ]}
                 onPress={link.onPress}
                 activeOpacity={0.7}
@@ -261,55 +270,59 @@ export default function CategoriesScreen() {
           </View>
 
           {/* Category Groups */}
-          {Array.from(groupedCategories.values()).map(({ group, categories: groupCats }) => (
-            <View key={group.id} style={styles.section}>
-              <Text style={[styles.sectionTitle, { color: textColor }]}>
-                {getGroupName(group)}
-              </Text>
-              <View style={styles.categoriesGrid}>
-                {groupCats.map((category) => {
-                  const style = getCategoryStyle(category.id);
-                  return (
-                    <TouchableOpacity
-                      key={category.id}
-                      style={[
-                        styles.categoryCard,
-                        { backgroundColor: cardBackground },
-                        selectedCategoryId === category.id && {
-                          borderWidth: 2,
-                          borderColor: primaryColor,
-                        },
-                      ]}
-                      onPress={() => handleCategorySelect(category.id)}
-                      activeOpacity={0.7}
-                    >
-                      <View
+          {Array.from(groupedCategories.values()).map(
+            ({ group, categories: groupCats }) => (
+              <View key={group.id} style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: textColor }]}>
+                  {getGroupName(group)}
+                </Text>
+                <View style={styles.categoriesGrid}>
+                  {groupCats.map((category) => {
+                    const style = getCategoryStyle(category.id);
+                    return (
+                      <TouchableOpacity
+                        key={category.id}
                         style={[
-                          styles.categoryIconContainer,
-                          { backgroundColor: style.color + "20" },
+                          styles.categoryCard,
+                          { backgroundColor: cardBackground },
+                          selectedCategoryId === category.id && {
+                            borderWidth: 2,
+                            borderColor: primaryColor,
+                          },
                         ]}
+                        onPress={() => handleCategorySelect(category.id)}
+                        activeOpacity={0.7}
                       >
-                        <IconSymbol
-                          name={style.icon as never}
-                          size={32}
-                          color={style.color}
-                        />
-                      </View>
-                      <Text
-                        style={[styles.categoryTitle, { color: textColor }]}
-                        numberOfLines={2}
-                      >
-                        {getCategoryName(category)}
-                      </Text>
-                      <Text style={[styles.wordCount, { color: textSecondary }]}>
-                        {category.wordCount} {t("categories.words")}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
+                        <View
+                          style={[
+                            styles.categoryIconContainer,
+                            { backgroundColor: style.color + "20" },
+                          ]}
+                        >
+                          <IconSymbol
+                            name={style.icon as never}
+                            size={32}
+                            color={style.color}
+                          />
+                        </View>
+                        <Text
+                          style={[styles.categoryTitle, { color: textColor }]}
+                          numberOfLines={2}
+                        >
+                          {getCategoryName(category)}
+                        </Text>
+                        <Text
+                          style={[styles.wordCount, { color: textSecondary }]}
+                        >
+                          {category.wordCount} {t("categories.words")}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
               </View>
-            </View>
-          ))}
+            ),
+          )}
         </BottomSheetScrollView>
       </BottomSheet>
     </View>

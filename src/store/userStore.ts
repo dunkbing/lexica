@@ -1,13 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import type {
-  UserWordState,
-  UserStats,
-  Collection,
-  GameResult,
-  SRS_INTERVALS,
-} from "@/types";
+import type { UserWordState, UserStats, Collection, GameResult } from "@/types";
 
 // SRS intervals in milliseconds
 const SRS_INTERVALS_MS = [1, 3, 7, 14, 30, 60, 120].map(
@@ -320,9 +314,7 @@ export const useUserStore = create<UserState>()(
         const now = Date.now();
         const { wordStates } = get();
         return Object.values(wordStates)
-          .filter(
-            (ws) => ws.nextReviewAt !== null && ws.nextReviewAt <= now,
-          )
+          .filter((ws) => ws.nextReviewAt !== null && ws.nextReviewAt <= now)
           .sort((a, b) => (a.nextReviewAt || 0) - (b.nextReviewAt || 0))
           .map((ws) => ws.wordId);
       },
