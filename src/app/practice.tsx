@@ -1,10 +1,5 @@
 import React, { useMemo, useCallback, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import * as Haptics from "expo-haptics";
@@ -58,7 +53,7 @@ export default function PracticeScreen() {
         scrollY.value,
         [0, SCROLL_THRESHOLD],
         [1, 0],
-        Extrapolation.CLAMP
+        Extrapolation.CLAMP,
       ),
     };
   });
@@ -69,7 +64,7 @@ export default function PracticeScreen() {
         scrollY.value,
         [SCROLL_THRESHOLD - 20, SCROLL_THRESHOLD],
         [0, 1],
-        Extrapolation.CLAMP
+        Extrapolation.CLAMP,
       ),
     };
   });

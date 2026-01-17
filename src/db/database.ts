@@ -36,6 +36,7 @@ export const initVocabDatabase = async (): Promise<SQLite.SQLiteDatabase> => {
   // Delete existing database to ensure fresh import from asset
   try {
     await SQLite.deleteDatabaseAsync(VOCAB_DATA_DB_NAME);
+    console.log("db_deleted");
   } catch {
     // Database might not exist, that's ok
   }

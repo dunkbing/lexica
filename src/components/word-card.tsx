@@ -10,10 +10,10 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  runOnJS,
   interpolate,
   Extrapolation,
 } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import * as Speech from "expo-speech";
@@ -161,7 +161,7 @@ export function WordCard({
       );
 
       // Report swipe progress
-      runOnJS(reportProgress)(event.translationX);
+      scheduleOnRN(reportProgress, event.translationX);
 
       // Trigger haptic when crossing threshold
       if (
@@ -170,9 +170,9 @@ export function WordCard({
       ) {
         hasTriggeredHaptic.current = true;
         if (event.translationX > 0) {
-          runOnJS(triggerHaptic)("success");
+          scheduleOnRN(triggerHaptic, "success");
         } else {
-          runOnJS(triggerHaptic)("warning");
+          scheduleOnRN(triggerHaptic, "warning");
         }
       } else if (Math.abs(event.translationX) < SWIPE_THRESHOLD) {
         hasTriggeredHaptic.current = false;
@@ -182,16 +182,16 @@ export function WordCard({
       if (event.translationX > SWIPE_THRESHOLD) {
         translateX.value = withTiming(SCREEN_WIDTH * 1.5, { duration: 250 });
         rotation.value = withTiming(30, { duration: 250 });
-        runOnJS(reportProgress)(SWIPE_THRESHOLD); // Keep at max
-        runOnJS(handleSwipeComplete)("right");
+        scheduleOnRN(reportProgress, SWIPE_THRESHOLD); // Keep at max
+        scheduleOnRN(handleSwipeComplete, "right");
       } else if (event.translationX < -SWIPE_THRESHOLD) {
         translateX.value = withTiming(-SCREEN_WIDTH * 1.5, { duration: 250 });
         rotation.value = withTiming(-30, { duration: 250 });
-        runOnJS(reportProgress)(SWIPE_THRESHOLD); // Keep at max
-        runOnJS(handleSwipeComplete)("left");
+        scheduleOnRN(reportProgress, SWIPE_THRESHOLD); // Keep at max
+        scheduleOnRN(handleSwipeComplete, "left");
       } else {
-        runOnJS(reportProgress)(0); // Reset progress
-        runOnJS(resetCard)(true);
+        scheduleOnRN(reportProgress, 0); // Reset progress
+        scheduleOnRN(resetCard, true);
       }
     });
 
@@ -226,13 +226,9 @@ export function WordCard({
   const isVietnamese = i18n.language === "vi";
 
   // Get definition based on current language
-  const primaryDefinition = isVietnamese ? word.definition.vi : word.definition.en;
-  const secondaryDefinition = isVietnamese ? word.definition.en : word.definition.vi;
-
-  // Get example based on current language
-  const example = word.examples[0];
-  const primaryExample = example ? (isVietnamese ? example.vi : example.en) : null;
-  const secondaryExample = example ? (isVietnamese ? example.en : example.vi) : null;
+  const primaryDefinition = isVietnamese
+    ? word.definition.vi
+    : word.definition.en;
 
   return (
     <GestureDetector gesture={panGesture}>
@@ -285,29 +281,10 @@ export function WordCard({
             />
           </TouchableOpacity>
 
-          {/* Primary Definition (in app language) */}
+          {/* Definition (in app language) */}
           <Text style={[styles.definition, { color: textColor }]}>
             {posLabel} {primaryDefinition}
           </Text>
-
-          {/* Secondary Definition (translation) */}
-          <Text style={[styles.meaning, { color: primaryColor }]}>
-            {secondaryDefinition}
-          </Text>
-
-          {/* Example */}
-          {primaryExample && (
-            <View style={styles.exampleContainer}>
-              <Text style={[styles.example, { color: textSecondary }]}>
-                "{primaryExample}"
-              </Text>
-              {secondaryExample && (
-                <Text style={[styles.exampleTranslation, { color: textSecondary }]}>
-                  {secondaryExample}
-                </Text>
-              )}
-            </View>
-          )}
         </View>
 
         {/* Actions */}
@@ -411,26 +388,7 @@ const styles = StyleSheet.create({
   definition: {
     fontSize: FontSizes.lg,
     textAlign: "center",
-    marginBottom: Spacing.sm,
-  },
-  meaning: {
-    fontSize: FontSizes.md,
-    textAlign: "center",
-    fontWeight: FontWeights.medium,
-    marginBottom: Spacing.xl,
-  },
-  exampleContainer: {
-    paddingHorizontal: Spacing.md,
-  },
-  example: {
-    fontSize: FontSizes.sm,
-    textAlign: "center",
-    fontStyle: "italic",
-    marginBottom: Spacing.xs,
-  },
-  exampleTranslation: {
-    fontSize: FontSizes.sm,
-    textAlign: "center",
+    lineHeight: 26,
   },
   actions: {
     flexDirection: "row",

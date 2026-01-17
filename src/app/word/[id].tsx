@@ -29,7 +29,7 @@ import {
 
 export default function WordDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -91,12 +91,18 @@ export default function WordDetailScreen() {
   const masteryLevel = wordState?.familiarityScore || 0;
   const masteryPercent = Math.min(100, Math.round((masteryLevel / 6) * 100));
 
+  const isVietnamese = i18n.language === "vi";
+  const definition = isVietnamese ? word.definition.vi : word.definition.en;
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + Spacing.md }]}>
         <TouchableOpacity
-          style={[styles.backButton, { backgroundColor: cardBackground, borderColor }]}
+          style={[
+            styles.backButton,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
           onPress={() => router.back()}
         >
           <IconSymbol name="chevron.left" size={20} color={textColor} />
@@ -143,13 +149,24 @@ export default function WordDetailScreen() {
           <TouchableOpacity onPress={speak} activeOpacity={0.7}>
             <Pill
               text={word.phonetic}
-              icon={<IconSymbol name="speaker.wave.2.fill" size={16} color={textSecondary} />}
+              icon={
+                <IconSymbol
+                  name="speaker.wave.2.fill"
+                  size={16}
+                  color={textSecondary}
+                />
+              }
             />
           </TouchableOpacity>
         </View>
 
         {/* Mastery */}
-        <View style={[styles.masteryCard, { backgroundColor: cardBackground, borderColor }]}>
+        <View
+          style={[
+            styles.masteryCard,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
+        >
           <View style={styles.masteryHeader}>
             <Text style={[styles.masteryLabel, { color: textSecondary }]}>
               {t("word.mastery")}
@@ -174,10 +191,7 @@ export default function WordDetailScreen() {
             {t("word.definition")}
           </Text>
           <Text style={[styles.definition, { color: textColor }]}>
-            {posLabel} {word.definition_en}
-          </Text>
-          <Text style={[styles.meaning, { color: primaryColor }]}>
-            {word.meaning_vi}
+            {posLabel} {definition}
           </Text>
         </View>
 
@@ -190,14 +204,20 @@ export default function WordDetailScreen() {
             {word.examples.map((example, index) => (
               <View
                 key={index}
-                style={[styles.exampleCard, { backgroundColor: cardBackground, borderColor }]}
+                style={[
+                  styles.exampleCard,
+                  { backgroundColor: cardBackground, borderColor },
+                ]}
               >
-                <Text style={[styles.exampleEn, { color: textColor }]}>
-                  "{example.en}"
-                </Text>
-                <Text style={[styles.exampleVi, { color: textSecondary }]}>
-                  {example.vi}
-                </Text>
+                {isVietnamese ? (
+                  <Text style={[styles.exampleVi, { color: textSecondary }]}>
+                    {example.vi}
+                  </Text>
+                ) : (
+                  <Text style={[styles.exampleEn, { color: textColor }]}>
+                    &quot;{example.en}&quot;
+                  </Text>
+                )}
               </View>
             ))}
           </View>
@@ -213,7 +233,13 @@ export default function WordDetailScreen() {
               {word.synonyms.map((synonym, index) => (
                 <View
                   key={index}
-                  style={[styles.tag, { backgroundColor: `${successColor}20`, borderColor: successColor }]}
+                  style={[
+                    styles.tag,
+                    {
+                      backgroundColor: `${successColor}20`,
+                      borderColor: successColor,
+                    },
+                  ]}
                 >
                   <Text style={[styles.tagText, { color: successColor }]}>
                     {synonym}
@@ -234,7 +260,13 @@ export default function WordDetailScreen() {
               {word.antonyms.map((antonym, index) => (
                 <View
                   key={index}
-                  style={[styles.tag, { backgroundColor: `${warningColor}20`, borderColor: warningColor }]}
+                  style={[
+                    styles.tag,
+                    {
+                      backgroundColor: `${warningColor}20`,
+                      borderColor: warningColor,
+                    },
+                  ]}
                 >
                   <Text style={[styles.tagText, { color: warningColor }]}>
                     {antonym}

@@ -1,17 +1,11 @@
 import React, { useEffect, useCallback, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withTiming,
   interpolate,
 } from "react-native-reanimated";
 
@@ -95,7 +89,8 @@ export default function HomeScreen() {
     };
   });
   const wordState = currentWord ? getWordState(currentWord.id) : null;
-  const progress = todayWords.length > 0 ? (currentWordIndex + 1) / todayWords.length : 0;
+  const progress =
+    todayWords.length > 0 ? (currentWordIndex + 1) / todayWords.length : 0;
   const selectedCategory = selectedCategoryId
     ? categories.find((c) => c.id === selectedCategoryId)
     : null;
@@ -180,7 +175,11 @@ export default function HomeScreen() {
               { backgroundColor: `${primaryColor}20` },
             ]}
           >
-            <IconSymbol name="checkmark.circle.fill" size={64} color={primaryColor} />
+            <IconSymbol
+              name="checkmark.circle.fill"
+              size={64}
+              color={primaryColor}
+            />
           </View>
           <Text style={[styles.completeTitle, { color: textColor }]}>
             {t("home.sessionComplete")}
@@ -190,7 +189,12 @@ export default function HomeScreen() {
           </Text>
 
           <View style={styles.completeStats}>
-            <View style={[styles.statBox, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.statBox,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.statValue, { color: primaryColor }]}>
                 {stats.currentStreak}
               </Text>
@@ -198,7 +202,12 @@ export default function HomeScreen() {
                 {t("stats.streak")}
               </Text>
             </View>
-            <View style={[styles.statBox, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.statBox,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.statValue, { color: primaryColor }]}>
                 {stats.totalRead}
               </Text>
@@ -245,7 +254,10 @@ export default function HomeScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + Spacing.md }]}>
         <TouchableOpacity
-          style={[styles.profileButton, { backgroundColor: cardBackground, borderColor }]}
+          style={[
+            styles.profileButton,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
           onPress={() => router.push("/profile")}
         >
           <IconSymbol name="person" size={22} color={textColor} />
@@ -271,15 +283,27 @@ export default function HomeScreen() {
                 >
                   {selectedCategory.name_en}
                 </Text>
-                <IconSymbol name="chevron.down" size={12} color={textSecondary} />
+                <IconSymbol
+                  name="chevron.down"
+                  size={12}
+                  color={textSecondary}
+                />
               </View>
             ) : (
               <View style={styles.categoryBadge}>
-                <IconSymbol name="text.book.closed.fill" size={14} color={primaryColor} />
+                <IconSymbol
+                  name="text.book.closed.fill"
+                  size={14}
+                  color={primaryColor}
+                />
                 <Text style={[styles.categoryText, { color: textColor }]}>
                   {t("categories.allWords")}
                 </Text>
-                <IconSymbol name="chevron.down" size={12} color={textSecondary} />
+                <IconSymbol
+                  name="chevron.down"
+                  size={12}
+                  color={textSecondary}
+                />
               </View>
             )}
           </TouchableOpacity>
