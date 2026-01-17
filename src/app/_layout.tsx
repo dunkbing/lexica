@@ -99,33 +99,29 @@ export default function RootLayout() {
               <Stack.Screen
                 name="practice"
                 options={{
-                  presentation: "formSheet",
-                  sheetGrabberVisible: true,
-                  sheetCornerRadius: 24,
+                  presentation: "transparentModal",
+                  animation: "slide_from_bottom",
                 }}
               />
               <Stack.Screen
                 name="categories"
                 options={{
-                  presentation: "formSheet",
-                  sheetGrabberVisible: true,
-                  sheetCornerRadius: 24,
+                  presentation: "transparentModal",
+                  animation: "slide_from_bottom",
                 }}
               />
               <Stack.Screen
                 name="profile"
                 options={{
-                  presentation: "formSheet",
-                  sheetGrabberVisible: true,
-                  sheetCornerRadius: 24,
+                  presentation: "transparentModal",
+                  animation: "slide_from_bottom",
                 }}
               />
               <Stack.Screen
                 name="stats"
                 options={{
-                  presentation: "formSheet",
-                  sheetGrabberVisible: true,
-                  sheetCornerRadius: 24,
+                  presentation: "transparentModal",
+                  animation: "slide_from_bottom",
                 }}
               />
               <Stack.Screen name="word/[id]" />

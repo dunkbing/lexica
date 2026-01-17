@@ -143,7 +143,108 @@ const { isTablet, contentPadding, sidebarWidth } = useResponsive();
 
 ### Navigation
 
-Expo Router file-based navigation with tab bar (phone) or sidebar (tablet).
+Expo Router file-based navigation with custom bottom nav and bottom sheet modals.
+
+### Bottom Sheet Pattern
+
+Secondary screens (Categories, Practice, Stats, Profile) use `@gorhom/bottom-sheet` for a native sheet experience.
+
+**Key characteristics:**
+- Fixed height at 95% of screen
+- Pan down to close gesture enabled
+- Collapsible header with animated title transition
+- Close button (X) in top-left corner
+
+**Title animation behavior:**
+- Large title (32px, bold, left-aligned) visible at the top when not scrolled
+- When scrolling past 50px, large title fades out
+- Small title (FontSizes.lg, centered) fades in at the header
+- Uses `react-native-reanimated` for smooth opacity interpolation
+
+**Implementation pattern:**
+```typescript
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  interpolate,
+  Extrapolation,
+} from "react-native-reanimated";
+
+const SCROLL_THRESHOLD = 50;
+
+export default function SheetScreen() {
+  const scrollY = useSharedValue(0);
+  const snapPoints = useMemo(() => ["95%"], []);
+
+  const largeTitleStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      scrollY.value,
+      [0, SCROLL_THRESHOLD],
+      [1, 0],
+      Extrapolation.CLAMP
+    ),
+  }));
+
+  const smallTitleStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      scrollY.value,
+      [SCROLL_THRESHOLD - 20, SCROLL_THRESHOLD],
+      [0, 1],
+      Extrapolation.CLAMP
+    ),
+  }));
+
+  return (
+    <View style={styles.container}>
+      <BottomSheet
+        index={0}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        enableDynamicSizing={false}
+        onClose={() => router.back()}
+        backgroundStyle={{ backgroundColor }}
+        handleIndicatorStyle={{ backgroundColor: textSecondary }}
+      >
+        {/* Fixed header with close button and animated small title */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()}>
+            <IconSymbol name="xmark" size={16} />
+          </TouchableOpacity>
+          <Animated.Text style={[styles.smallTitle, smallTitleStyle]}>
+            Title
+          </Animated.Text>
+          <View style={styles.headerSpacer} />
+        </View>
+
+        <BottomSheetScrollView
+          onScroll={(e) => {
+            scrollY.value = e.nativeEvent.contentOffset.y;
+          }}
+          scrollEventThrottle={16}
+        >
+          {/* Large title that fades out on scroll */}
+          <Animated.Text style={[styles.largeTitle, largeTitleStyle]}>
+            Title
+          </Animated.Text>
+          {/* Content */}
+        </BottomSheetScrollView>
+      </BottomSheet>
+    </View>
+  );
+}
+```
+
+**Route configuration in _layout.tsx:**
+```typescript
+<Stack.Screen
+  name="categories"
+  options={{
+    presentation: "transparentModal",
+    animation: "slide_from_bottom",
+  }}
+/>
+```
 
 ## Environment
 
