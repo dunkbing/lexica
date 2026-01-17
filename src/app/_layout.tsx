@@ -11,7 +11,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useEffectiveColorScheme } from "@/hooks/use-theme-color";
 import { Colors } from "@/constants/theme";
 import i18n, { initI18n } from "@/i18n";
-import { initUserDatabase } from "@/db/database";
+import { initUserDatabase, initVocabDatabase } from "@/db/database";
 import { useAppStore } from "@/store";
 
 SplashScreen.setOptions({
@@ -64,7 +64,7 @@ export default function RootLayout() {
     async function prepare() {
       try {
         await initI18n();
-        await initUserDatabase();
+        await Promise.all([initUserDatabase(), initVocabDatabase()]);
         setInitialized(true);
       } catch (error) {
         console.error("Initialization error:", error);

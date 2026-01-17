@@ -8,6 +8,12 @@ import {
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolate,
+} from "react-native-reanimated";
 
 import { WordCard } from "@/components/word-card";
 import { BottomNav } from "@/components/bottom-nav";
@@ -24,6 +30,7 @@ import {
   FontWeights,
   Spacing,
 } from "@/constants/theme";
+import { getCategoryStyle } from "@/constants/category-styles";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -43,6 +50,8 @@ export default function HomeScreen() {
     loadWords,
     nextWord,
     shuffleTodayWords,
+    selectedCategoryId,
+    categories,
   } = useWordStore();
   const {
     getWordState,
@@ -56,14 +65,43 @@ export default function HomeScreen() {
   const dailyGoal = useAppStore((s) => s.dailyGoal);
 
   const [showComplete, setShowComplete] = useState(false);
+  const swipeProgress = useSharedValue(0);
 
   useEffect(() => {
     loadWords();
   }, [loadWords]);
 
+  // Reset swipe progress when card changes
+  useEffect(() => {
+    swipeProgress.value = 0;
+  }, [currentWordIndex, swipeProgress]);
+
   const currentWord = todayWords[currentWordIndex];
+  const nextWord2 = todayWords[currentWordIndex + 1];
+
+  const handleSwipeProgress = useCallback(
+    (progress: number) => {
+      swipeProgress.value = progress;
+    },
+    [swipeProgress],
+  );
+
+  const nextCardAnimatedStyle = useAnimatedStyle(() => {
+    const scale = interpolate(swipeProgress.value, [0, 1], [0.95, 1]);
+    const opacity = interpolate(swipeProgress.value, [0, 1], [0.7, 1]);
+    return {
+      transform: [{ scale }],
+      opacity,
+    };
+  });
   const wordState = currentWord ? getWordState(currentWord.id) : null;
   const progress = todayWords.length > 0 ? (currentWordIndex + 1) / todayWords.length : 0;
+  const selectedCategory = selectedCategoryId
+    ? categories.find((c) => c.id === selectedCategoryId)
+    : null;
+  const selectedCategoryStyle = selectedCategoryId
+    ? getCategoryStyle(selectedCategoryId)
+    : null;
 
   const handleSwipeRight = useCallback(() => {
     if (currentWord) {
@@ -214,6 +252,38 @@ export default function HomeScreen() {
         </TouchableOpacity>
 
         <View style={styles.progressSection}>
+          {/* Category indicator */}
+          <TouchableOpacity
+            style={styles.categoryIndicator}
+            onPress={() => router.push("/categories")}
+          >
+            {selectedCategory && selectedCategoryStyle ? (
+              <View style={styles.categoryBadge}>
+                <View
+                  style={[
+                    styles.categoryDot,
+                    { backgroundColor: selectedCategoryStyle.color },
+                  ]}
+                />
+                <Text
+                  style={[styles.categoryText, { color: textColor }]}
+                  numberOfLines={1}
+                >
+                  {selectedCategory.name_en}
+                </Text>
+                <IconSymbol name="chevron.down" size={12} color={textSecondary} />
+              </View>
+            ) : (
+              <View style={styles.categoryBadge}>
+                <IconSymbol name="text.book.closed.fill" size={14} color={primaryColor} />
+                <Text style={[styles.categoryText, { color: textColor }]}>
+                  {t("categories.allWords")}
+                </Text>
+                <IconSymbol name="chevron.down" size={12} color={textSecondary} />
+              </View>
+            )}
+          </TouchableOpacity>
+
           <View style={styles.progressHeader}>
             <IconSymbol name="bookmark" size={18} color={textColor} />
             <Text style={[styles.progressText, { color: textColor }]}>
@@ -228,17 +298,40 @@ export default function HomeScreen() {
 
       {/* Card Container */}
       <View style={styles.cardContainer}>
-        <WordCard
-          word={currentWord}
-          onSwipeRight={handleSwipeRight}
-          onSwipeLeft={handleSwipeLeft}
-          onInfoPress={handleInfoPress}
-          onFavoritePress={handleFavoritePress}
-          onSavePress={handleSavePress}
-          onSharePress={handleSharePress}
-          isFavorite={wordState?.isFavorite ?? false}
-          isSaved={wordState?.isSaved ?? false}
-        />
+        {/* Next card (behind) */}
+        {nextWord2 && (
+          <Animated.View
+            style={[styles.nextCardContainer, nextCardAnimatedStyle]}
+            pointerEvents="none"
+          >
+            <WordCard
+              word={nextWord2}
+              onSwipeRight={() => {}}
+              onSwipeLeft={() => {}}
+              onInfoPress={() => {}}
+              onFavoritePress={() => {}}
+              onSavePress={() => {}}
+              onSharePress={() => {}}
+              isFavorite={false}
+              isSaved={false}
+            />
+          </Animated.View>
+        )}
+        {/* Current card (front) */}
+        <View style={styles.currentCardContainer}>
+          <WordCard
+            word={currentWord}
+            onSwipeRight={handleSwipeRight}
+            onSwipeLeft={handleSwipeLeft}
+            onInfoPress={handleInfoPress}
+            onFavoritePress={handleFavoritePress}
+            onSavePress={handleSavePress}
+            onSharePress={handleSharePress}
+            isFavorite={wordState?.isFavorite ?? false}
+            isSaved={wordState?.isSaved ?? false}
+            onSwipeProgress={handleSwipeProgress}
+          />
+        </View>
       </View>
 
       {/* Bottom Navigation */}
@@ -270,6 +363,24 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Spacing.xs,
   },
+  categoryIndicator: {
+    marginBottom: Spacing.sm,
+  },
+  categoryBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.xs,
+  },
+  categoryDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  categoryText: {
+    fontSize: FontSizes.sm,
+    fontWeight: FontWeights.medium,
+    maxWidth: 150,
+  },
   progressHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -289,6 +400,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: Spacing.xl,
     paddingBottom: 120,
+  },
+  nextCardContainer: {
+    position: "absolute",
+  },
+  currentCardContainer: {
+    zIndex: 1,
   },
   loadingContainer: {
     flex: 1,

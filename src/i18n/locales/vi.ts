@@ -109,6 +109,7 @@ export default {
     society: "Xã hội",
     human_body: "Cơ thể người",
     wordCount: "{{count}} từ",
+    words: "từ",
     searchTopics: "Tìm chủ đề",
     aboutOurselves: "Về bản thân",
   },

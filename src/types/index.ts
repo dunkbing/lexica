@@ -1,21 +1,23 @@
 // Word data types
-export interface WordExample {
+export interface LocalizedText {
   en: string;
   vi: string;
 }
+
+export type WordLevel = "beginner" | "intermediate" | "advanced";
 
 export interface Word {
   id: string;
   term: string;
   phonetic: string;
   pos: "noun" | "verb" | "adj" | "adv" | "prep" | "conj" | "pron" | "interj";
-  definition_en: string;
-  meaning_vi: string;
-  examples: WordExample[];
+  definition: LocalizedText;
+  examples: LocalizedText[];
   synonyms?: string[];
   antonyms?: string[];
   origin?: string;
   audioUrl?: string;
+  level?: WordLevel;
   categoryId: string;
 }
 
@@ -32,13 +34,19 @@ export interface UserWordState {
   incorrectCount: number;
 }
 
+// Category Group
+export interface CategoryGroup {
+  id: string;
+  name_en: string;
+  name_vi: string;
+}
+
 // Category
 export interface Category {
   id: string;
+  groupId: string;
   name_vi: string;
   name_en: string;
-  icon: string;
-  color: string;
   wordCount: number;
 }
 

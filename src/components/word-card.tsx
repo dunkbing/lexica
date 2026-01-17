@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,6 @@ import {
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
   runOnJS,
   interpolate,
@@ -33,8 +32,10 @@ import {
   Spacing,
 } from "@/constants/theme";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
+const CARD_WIDTH = SCREEN_WIDTH - Spacing.xl * 2;
+const CARD_HEIGHT = Math.min(SCREEN_HEIGHT * 0.55, 480);
 
 interface WordCardProps {
   word: Word;
@@ -46,6 +47,7 @@ interface WordCardProps {
   onSharePress: () => void;
   isFavorite: boolean;
   isSaved: boolean;
+  onSwipeProgress?: (progress: number) => void; // 0 = center, 1 = threshold reached
 }
 
 export function WordCard({
@@ -58,6 +60,7 @@ export function WordCard({
   onSharePress,
   isFavorite,
   isSaved,
+  onSwipeProgress,
 }: WordCardProps) {
   const { t, i18n } = useTranslation();
   const hapticsEnabled = useAppStore((s) => s.hapticsEnabled);
@@ -101,13 +104,29 @@ export function WordCard({
     });
   }, [word.term, soundEnabled, hapticsEnabled]);
 
-  const resetCard = useCallback(() => {
-    translateX.value = withSpring(0, { damping: 15 });
-    translateY.value = withSpring(0, { damping: 15 });
-    rotation.value = withSpring(0, { damping: 15 });
-    scale.value = withSpring(1, { damping: 15 });
-    hasTriggeredHaptic.current = false;
-  }, [translateX, translateY, rotation, scale]);
+  const resetCard = useCallback(
+    (animated = true) => {
+      if (animated) {
+        const timingConfig = { duration: 200 };
+        translateX.value = withTiming(0, timingConfig);
+        translateY.value = withTiming(0, timingConfig);
+        rotation.value = withTiming(0, timingConfig);
+        scale.value = withTiming(1, timingConfig);
+      } else {
+        translateX.value = 0;
+        translateY.value = 0;
+        rotation.value = 0;
+        scale.value = 1;
+      }
+      hasTriggeredHaptic.current = false;
+    },
+    [translateX, translateY, rotation, scale],
+  );
+
+  // Reset card position when word changes
+  useEffect(() => {
+    resetCard(false);
+  }, [word.id, resetCard]);
 
   const handleSwipeComplete = useCallback(
     (direction: "left" | "right") => {
@@ -120,6 +139,16 @@ export function WordCard({
     [onSwipeRight, onSwipeLeft],
   );
 
+  const reportProgress = useCallback(
+    (translationX: number) => {
+      if (onSwipeProgress) {
+        const progress = Math.min(Math.abs(translationX) / SWIPE_THRESHOLD, 1);
+        onSwipeProgress(progress);
+      }
+    },
+    [onSwipeProgress],
+  );
+
   const panGesture = Gesture.Pan()
     .onUpdate((event) => {
       translateX.value = event.translationX;
@@ -130,6 +159,9 @@ export function WordCard({
         [-15, 0, 15],
         Extrapolation.CLAMP,
       );
+
+      // Report swipe progress
+      runOnJS(reportProgress)(event.translationX);
 
       // Trigger haptic when crossing threshold
       if (
@@ -148,15 +180,18 @@ export function WordCard({
     })
     .onEnd((event) => {
       if (event.translationX > SWIPE_THRESHOLD) {
-        translateX.value = withTiming(SCREEN_WIDTH * 1.5, { duration: 300 });
-        rotation.value = withTiming(30, { duration: 300 });
+        translateX.value = withTiming(SCREEN_WIDTH * 1.5, { duration: 250 });
+        rotation.value = withTiming(30, { duration: 250 });
+        runOnJS(reportProgress)(SWIPE_THRESHOLD); // Keep at max
         runOnJS(handleSwipeComplete)("right");
       } else if (event.translationX < -SWIPE_THRESHOLD) {
-        translateX.value = withTiming(-SCREEN_WIDTH * 1.5, { duration: 300 });
-        rotation.value = withTiming(-30, { duration: 300 });
+        translateX.value = withTiming(-SCREEN_WIDTH * 1.5, { duration: 250 });
+        rotation.value = withTiming(-30, { duration: 250 });
+        runOnJS(reportProgress)(SWIPE_THRESHOLD); // Keep at max
         runOnJS(handleSwipeComplete)("left");
       } else {
-        runOnJS(resetCard)();
+        runOnJS(reportProgress)(0); // Reset progress
+        runOnJS(resetCard)(true);
       }
     });
 
@@ -190,26 +225,43 @@ export function WordCard({
   const posLabel = t(`word.${word.pos}`) || `(${word.pos})`;
   const isVietnamese = i18n.language === "vi";
 
+  // Get definition based on current language
+  const primaryDefinition = isVietnamese ? word.definition.vi : word.definition.en;
+  const secondaryDefinition = isVietnamese ? word.definition.en : word.definition.vi;
+
+  // Get example based on current language
+  const example = word.examples[0];
+  const primaryExample = example ? (isVietnamese ? example.vi : example.en) : null;
+  const secondaryExample = example ? (isVietnamese ? example.en : example.vi) : null;
+
   return (
     <GestureDetector gesture={panGesture}>
       <Animated.View
-        style={[
-          styles.card,
-          { backgroundColor, borderColor },
-          animatedStyle,
-        ]}
+        style={[styles.card, { backgroundColor, borderColor }, animatedStyle]}
       >
         {/* Know overlay */}
-        <Animated.View style={[styles.overlay, styles.rightOverlay, rightOverlayStyle]}>
-          <View style={[styles.overlayBadge, { backgroundColor: successColor }]}>
+        <Animated.View
+          style={[styles.overlay, styles.rightOverlay, rightOverlayStyle]}
+        >
+          <View
+            style={[styles.overlayBadge, { backgroundColor: successColor }]}
+          >
             <IconSymbol name="checkmark" size={24} color="#FFFFFF" />
           </View>
         </Animated.View>
 
         {/* Review overlay */}
-        <Animated.View style={[styles.overlay, styles.leftOverlay, leftOverlayStyle]}>
-          <View style={[styles.overlayBadge, { backgroundColor: warningColor }]}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color="#FFFFFF" />
+        <Animated.View
+          style={[styles.overlay, styles.leftOverlay, leftOverlayStyle]}
+        >
+          <View
+            style={[styles.overlayBadge, { backgroundColor: warningColor }]}
+          >
+            <IconSymbol
+              name="arrow.counterclockwise"
+              size={24}
+              color="#FFFFFF"
+            />
           </View>
         </Animated.View>
 
@@ -222,30 +274,38 @@ export function WordCard({
           <TouchableOpacity onPress={speak} activeOpacity={0.7}>
             <Pill
               text={word.phonetic}
-              icon={<IconSymbol name="speaker.wave.2.fill" size={16} color={textSecondary} />}
+              icon={
+                <IconSymbol
+                  name="speaker.wave.2.fill"
+                  size={16}
+                  color={textSecondary}
+                />
+              }
               style={styles.pronunciation}
             />
           </TouchableOpacity>
 
-          {/* Definition */}
+          {/* Primary Definition (in app language) */}
           <Text style={[styles.definition, { color: textColor }]}>
-            {posLabel} {word.definition_en}
+            {posLabel} {primaryDefinition}
           </Text>
 
-          {/* Vietnamese meaning */}
+          {/* Secondary Definition (translation) */}
           <Text style={[styles.meaning, { color: primaryColor }]}>
-            {word.meaning_vi}
+            {secondaryDefinition}
           </Text>
 
           {/* Example */}
-          {word.examples[0] && (
+          {primaryExample && (
             <View style={styles.exampleContainer}>
               <Text style={[styles.example, { color: textSecondary }]}>
-                "{word.examples[0].en}"
+                "{primaryExample}"
               </Text>
-              <Text style={[styles.exampleTranslation, { color: textSecondary }]}>
-                {word.examples[0].vi}
-              </Text>
+              {secondaryExample && (
+                <Text style={[styles.exampleTranslation, { color: textSecondary }]}>
+                  {secondaryExample}
+                </Text>
+              )}
             </View>
           )}
         </View>
@@ -253,12 +313,20 @@ export function WordCard({
         {/* Actions */}
         <View style={styles.actions}>
           <IconButton
-            icon={<IconSymbol name="info.circle" size={24} color={textSecondary} />}
+            icon={
+              <IconSymbol name="info.circle" size={24} color={textSecondary} />
+            }
             onPress={onInfoPress}
             variant="outlined"
           />
           <IconButton
-            icon={<IconSymbol name="square.and.arrow.up" size={24} color={textSecondary} />}
+            icon={
+              <IconSymbol
+                name="square.and.arrow.up"
+                size={24}
+                color={textSecondary}
+              />
+            }
             onPress={onSharePress}
             variant="outlined"
           />
@@ -294,8 +362,8 @@ export function WordCard({
 
 const styles = StyleSheet.create({
   card: {
-    width: SCREEN_WIDTH - Spacing.xl * 2,
-    minHeight: 400,
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
     borderRadius: BorderRadius.xl,
     borderWidth: 1,
     padding: Spacing.xl,

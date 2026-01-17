@@ -1,20 +1,24 @@
 import { create } from "zustand";
-import type { Word, Category } from "@/types";
-import wordsData from "@/assets/data/words.json";
+import type { Word, Category, CategoryGroup } from "@/types";
+import * as wordRepository from "@/db/repositories/word-repository";
+import * as categoryRepository from "@/db/repositories/category-repository";
 
 interface WordState {
   words: Word[];
   categories: Category[];
+  categoryGroups: CategoryGroup[];
   todayWords: Word[];
   currentWordIndex: number;
   isLoading: boolean;
+  selectedCategoryId: string | null; // null means all categories
 
   // Actions
-  loadWords: () => void;
+  loadWords: () => Promise<void>;
   setCurrentWordIndex: (index: number) => void;
   nextWord: () => void;
   prevWord: () => void;
-  shuffleTodayWords: (count: number) => void;
+  shuffleTodayWords: (count?: number) => void;
+  setSelectedCategory: (categoryId: string | null) => void;
   getWordById: (id: string) => Word | undefined;
   getWordsByCategory: (categoryId: string) => Word[];
   getRandomWords: (count: number, excludeIds?: string[]) => Word[];
@@ -23,25 +27,45 @@ interface WordState {
 export const useWordStore = create<WordState>((set, get) => ({
   words: [],
   categories: [],
+  categoryGroups: [],
   todayWords: [],
   currentWordIndex: 0,
   isLoading: false,
+  selectedCategoryId: null,
 
-  loadWords: () => {
+  loadWords: async () => {
     set({ isLoading: true });
-    const words = wordsData.words as Word[];
-    const categories = wordsData.categories as Category[];
 
-    // Shuffle and pick words for today
-    const shuffled = [...words].sort(() => Math.random() - 0.5);
-    const todayWords = shuffled.slice(0, 5);
+    try {
+      // Load from SQLite database
+      const [words, categories, categoryGroups] = await Promise.all([
+        wordRepository.getAllWords(),
+        categoryRepository.getAllCategories(),
+        categoryRepository.getAllCategoryGroups(),
+      ]);
 
-    set({
-      words,
-      categories,
-      todayWords,
-      isLoading: false,
-    });
+      const { selectedCategoryId } = get();
+
+      // Filter words by selected category if any
+      const filteredWords = selectedCategoryId
+        ? words.filter((w) => w.categoryId === selectedCategoryId)
+        : words;
+
+      // Shuffle and pick words for today
+      const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);
+      const todayWords = shuffled.slice(0, Math.min(5, shuffled.length));
+
+      set({
+        words,
+        categories,
+        categoryGroups,
+        todayWords,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Error loading words from database:", error);
+      set({ isLoading: false });
+    }
   },
 
   setCurrentWordIndex: (index) => {
@@ -65,11 +89,35 @@ export const useWordStore = create<WordState>((set, get) => ({
     }
   },
 
-  shuffleTodayWords: (count) => {
-    const { words } = get();
-    const shuffled = [...words].sort(() => Math.random() - 0.5);
+  shuffleTodayWords: (count = 5) => {
+    const { words, selectedCategoryId } = get();
+
+    // Filter words by selected category if any
+    const filteredWords = selectedCategoryId
+      ? words.filter((w) => w.categoryId === selectedCategoryId)
+      : words;
+
+    const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);
     set({
-      todayWords: shuffled.slice(0, count),
+      todayWords: shuffled.slice(0, Math.min(count, shuffled.length)),
+      currentWordIndex: 0,
+    });
+  },
+
+  setSelectedCategory: (categoryId) => {
+    const { words } = get();
+
+    // Filter words by selected category if any
+    const filteredWords = categoryId
+      ? words.filter((w) => w.categoryId === categoryId)
+      : words;
+
+    // Shuffle and pick words
+    const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);
+
+    set({
+      selectedCategoryId: categoryId,
+      todayWords: shuffled.slice(0, Math.min(5, shuffled.length)),
       currentWordIndex: 0,
     });
   },

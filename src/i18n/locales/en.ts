@@ -109,6 +109,7 @@ export default {
     society: "Society",
     human_body: "Human body",
     wordCount: "{{count}} words",
+    words: "words",
     searchTopics: "Search topics",
     aboutOurselves: "About ourselves",
   },
