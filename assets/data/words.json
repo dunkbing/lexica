@@ -1,0 +1,739 @@
+{
+  "categories": [
+    {
+      "id": "emotions",
+      "name_vi": "Cảm xúc",
+      "name_en": "Emotions",
+      "icon": "heart.fill",
+      "color": "#E57373"
+    },
+    {
+      "id": "daily_life",
+      "name_vi": "Đời sống",
+      "name_en": "Daily Life",
+      "icon": "house.fill",
+      "color": "#64B5F6"
+    },
+    {
+      "id": "office",
+      "name_vi": "Văn phòng",
+      "name_en": "Office",
+      "icon": "briefcase.fill",
+      "color": "#81C784"
+    },
+    {
+      "id": "society",
+      "name_vi": "Xã hội",
+      "name_en": "Society",
+      "icon": "person.3.fill",
+      "color": "#FFB74D"
+    }
+  ],
+  "words": [
+    {
+      "id": "w1",
+      "term": "serendipity",
+      "phonetic": "/ˌserənˈdɪpɪti/",
+      "pos": "noun",
+      "definition_en": "The occurrence of events by chance in a happy way",
+      "meaning_vi": "Sự may mắn tình cờ, niềm vui bất ngờ",
+      "examples": [
+        { "en": "Finding that book was pure serendipity.", "vi": "Tìm được cuốn sách đó thật là may mắn." },
+        { "en": "Their meeting was a beautiful serendipity.", "vi": "Cuộc gặp gỡ của họ là một sự tình cờ tuyệt đẹp." }
+      ],
+      "synonyms": ["luck", "fortune", "chance", "fate"],
+      "origin": "Coined by Horace Walpole in 1754",
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w2",
+      "term": "euphoria",
+      "phonetic": "/juːˈfɔːriə/",
+      "pos": "noun",
+      "definition_en": "A feeling of intense excitement and happiness",
+      "meaning_vi": "Cảm giác hưng phấn, vui sướng tột độ",
+      "examples": [
+        { "en": "She felt a sense of euphoria after winning.", "vi": "Cô ấy cảm thấy hưng phấn sau khi chiến thắng." },
+        { "en": "The euphoria of the moment was unforgettable.", "vi": "Niềm vui sướng của khoảnh khắc đó thật khó quên." }
+      ],
+      "synonyms": ["elation", "joy", "ecstasy", "bliss"],
+      "origin": "From Greek 'euphoros' meaning healthy",
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w3",
+      "term": "melancholy",
+      "phonetic": "/ˈmelənˌkɒli/",
+      "pos": "noun",
+      "definition_en": "A deep sadness or depression",
+      "meaning_vi": "Nỗi buồn sâu lắng, u sầu",
+      "examples": [
+        { "en": "A sense of melancholy filled the room.", "vi": "Một cảm giác u sầu tràn ngập căn phòng." },
+        { "en": "The music had a beautiful melancholy.", "vi": "Bản nhạc có một nỗi buồn đẹp đẽ." }
+      ],
+      "synonyms": ["sadness", "sorrow", "gloom", "wistfulness"],
+      "origin": "From Greek 'melancholia'",
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w4",
+      "term": "nostalgia",
+      "phonetic": "/nɒˈstældʒə/",
+      "pos": "noun",
+      "definition_en": "A sentimental longing for the past",
+      "meaning_vi": "Nỗi nhớ về quá khứ, hoài niệm",
+      "examples": [
+        { "en": "The old photos filled her with nostalgia.", "vi": "Những tấm ảnh cũ khiến cô ấy tràn ngập hoài niệm." },
+        { "en": "He felt nostalgia for his childhood home.", "vi": "Anh ấy nhớ da diết ngôi nhà thời thơ ấu." }
+      ],
+      "synonyms": ["longing", "yearning", "reminiscence", "homesickness"],
+      "origin": "From Greek 'nostos' (return home) + 'algos' (pain)",
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w5",
+      "term": "gratitude",
+      "phonetic": "/ˈɡrætɪtjuːd/",
+      "pos": "noun",
+      "definition_en": "The quality of being thankful",
+      "meaning_vi": "Lòng biết ơn, sự cảm kích",
+      "examples": [
+        { "en": "She expressed her gratitude with a gift.", "vi": "Cô ấy thể hiện lòng biết ơn bằng một món quà." },
+        { "en": "I have deep gratitude for your help.", "vi": "Tôi vô cùng biết ơn sự giúp đỡ của bạn." }
+      ],
+      "synonyms": ["thankfulness", "appreciation", "recognition"],
+      "origin": "From Latin 'gratitudo'",
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w6",
+      "term": "anxious",
+      "phonetic": "/ˈæŋkʃəs/",
+      "pos": "adj",
+      "definition_en": "Feeling worried or nervous",
+      "meaning_vi": "Lo lắng, bồn chồn",
+      "examples": [
+        { "en": "She felt anxious before the interview.", "vi": "Cô ấy cảm thấy lo lắng trước buổi phỏng vấn." },
+        { "en": "Don't be anxious, everything will be fine.", "vi": "Đừng lo lắng, mọi thứ sẽ ổn thôi." }
+      ],
+      "synonyms": ["worried", "nervous", "uneasy", "concerned"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w7",
+      "term": "resilient",
+      "phonetic": "/rɪˈzɪliənt/",
+      "pos": "adj",
+      "definition_en": "Able to recover quickly from difficulties",
+      "meaning_vi": "Kiên cường, có khả năng phục hồi",
+      "examples": [
+        { "en": "Children are remarkably resilient.", "vi": "Trẻ em có khả năng phục hồi đáng kinh ngạc." },
+        { "en": "She proved to be resilient in tough times.", "vi": "Cô ấy chứng tỏ sự kiên cường trong thời kỳ khó khăn." }
+      ],
+      "synonyms": ["tough", "strong", "adaptable", "flexible"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w8",
+      "term": "empathy",
+      "phonetic": "/ˈempəθi/",
+      "pos": "noun",
+      "definition_en": "The ability to understand others' feelings",
+      "meaning_vi": "Sự đồng cảm, thấu hiểu",
+      "examples": [
+        { "en": "She showed great empathy for the victims.", "vi": "Cô ấy thể hiện sự đồng cảm lớn với các nạn nhân." },
+        { "en": "Empathy is essential in relationships.", "vi": "Sự đồng cảm là thiết yếu trong các mối quan hệ." }
+      ],
+      "synonyms": ["compassion", "understanding", "sympathy"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w9",
+      "term": "contentment",
+      "phonetic": "/kənˈtentmənt/",
+      "pos": "noun",
+      "definition_en": "A state of happiness and satisfaction",
+      "meaning_vi": "Sự mãn nguyện, hài lòng",
+      "examples": [
+        { "en": "He found contentment in simple things.", "vi": "Anh ấy tìm thấy sự mãn nguyện trong những điều đơn giản." },
+        { "en": "True contentment comes from within.", "vi": "Sự mãn nguyện thực sự đến từ bên trong." }
+      ],
+      "synonyms": ["satisfaction", "happiness", "fulfillment"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w10",
+      "term": "overwhelmed",
+      "phonetic": "/ˌoʊvərˈwelmd/",
+      "pos": "adj",
+      "definition_en": "Feeling unable to cope with pressure",
+      "meaning_vi": "Bị choáng ngợp, quá tải",
+      "examples": [
+        { "en": "She was overwhelmed by the workload.", "vi": "Cô ấy bị choáng ngợp bởi khối lượng công việc." },
+        { "en": "I feel overwhelmed with gratitude.", "vi": "Tôi cảm thấy tràn ngập lòng biết ơn." }
+      ],
+      "synonyms": ["swamped", "overloaded", "inundated"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w11",
+      "term": "commute",
+      "phonetic": "/kəˈmjuːt/",
+      "pos": "verb",
+      "definition_en": "To travel regularly between home and work",
+      "meaning_vi": "Đi lại (giữa nhà và nơi làm việc)",
+      "examples": [
+        { "en": "I commute to work by train.", "vi": "Tôi đi làm bằng tàu hỏa." },
+        { "en": "Her daily commute takes an hour.", "vi": "Hành trình đi làm hàng ngày của cô ấy mất một giờ." }
+      ],
+      "synonyms": ["travel", "journey", "shuttle"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w12",
+      "term": "household",
+      "phonetic": "/ˈhaʊshoʊld/",
+      "pos": "noun",
+      "definition_en": "A house and its occupants as a unit",
+      "meaning_vi": "Hộ gia đình, người trong nhà",
+      "examples": [
+        { "en": "There are four people in our household.", "vi": "Có bốn người trong gia đình chúng tôi." },
+        { "en": "Household chores are shared equally.", "vi": "Việc nhà được chia đều." }
+      ],
+      "synonyms": ["family", "home", "residence"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w13",
+      "term": "grocery",
+      "phonetic": "/ˈɡroʊsəri/",
+      "pos": "noun",
+      "definition_en": "Food and supplies sold at a store",
+      "meaning_vi": "Thực phẩm, đồ tạp hóa",
+      "examples": [
+        { "en": "I need to buy some groceries.", "vi": "Tôi cần mua một ít thực phẩm." },
+        { "en": "The grocery store is around the corner.", "vi": "Cửa hàng tạp hóa ở góc phố." }
+      ],
+      "synonyms": ["provisions", "supplies", "food"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w14",
+      "term": "errand",
+      "phonetic": "/ˈerənd/",
+      "pos": "noun",
+      "definition_en": "A short journey to do a task",
+      "meaning_vi": "Việc vặt, công việc cần đi ra ngoài",
+      "examples": [
+        { "en": "I have a few errands to run today.", "vi": "Hôm nay tôi có vài việc vặt cần làm." },
+        { "en": "She ran errands for her mother.", "vi": "Cô ấy chạy việc vặt cho mẹ." }
+      ],
+      "synonyms": ["task", "chore", "mission"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w15",
+      "term": "routine",
+      "phonetic": "/ruːˈtiːn/",
+      "pos": "noun",
+      "definition_en": "A regular sequence of actions",
+      "meaning_vi": "Thói quen, lịch trình hàng ngày",
+      "examples": [
+        { "en": "My morning routine starts at 6 AM.", "vi": "Thói quen buổi sáng của tôi bắt đầu lúc 6 giờ." },
+        { "en": "Exercise is part of her daily routine.", "vi": "Tập thể dục là một phần trong thói quen hàng ngày của cô ấy." }
+      ],
+      "synonyms": ["habit", "pattern", "schedule"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w16",
+      "term": "appliance",
+      "phonetic": "/əˈplaɪəns/",
+      "pos": "noun",
+      "definition_en": "A device designed for household tasks",
+      "meaning_vi": "Thiết bị gia dụng",
+      "examples": [
+        { "en": "The kitchen has modern appliances.", "vi": "Nhà bếp có các thiết bị hiện đại." },
+        { "en": "This appliance saves a lot of time.", "vi": "Thiết bị này tiết kiệm rất nhiều thời gian." }
+      ],
+      "synonyms": ["device", "machine", "gadget"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w17",
+      "term": "convenient",
+      "phonetic": "/kənˈviːniənt/",
+      "pos": "adj",
+      "definition_en": "Easy to use or access",
+      "meaning_vi": "Thuận tiện, tiện lợi",
+      "examples": [
+        { "en": "The location is very convenient.", "vi": "Vị trí này rất thuận tiện." },
+        { "en": "Online shopping is convenient.", "vi": "Mua sắm trực tuyến rất tiện lợi." }
+      ],
+      "synonyms": ["handy", "practical", "accessible"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w18",
+      "term": "affordable",
+      "phonetic": "/əˈfɔːrdəbl/",
+      "pos": "adj",
+      "definition_en": "Reasonably priced, not expensive",
+      "meaning_vi": "Có thể chi trả được, giá phải chăng",
+      "examples": [
+        { "en": "The rent is quite affordable.", "vi": "Tiền thuê nhà khá phải chăng." },
+        { "en": "We need affordable housing options.", "vi": "Chúng tôi cần các lựa chọn nhà ở giá rẻ." }
+      ],
+      "synonyms": ["inexpensive", "cheap", "reasonable"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w19",
+      "term": "sustainable",
+      "phonetic": "/səˈsteɪnəbl/",
+      "pos": "adj",
+      "definition_en": "Able to be maintained over time",
+      "meaning_vi": "Bền vững, có thể duy trì",
+      "examples": [
+        { "en": "We need sustainable solutions.", "vi": "Chúng ta cần các giải pháp bền vững." },
+        { "en": "Sustainable living is important.", "vi": "Lối sống bền vững rất quan trọng." }
+      ],
+      "synonyms": ["lasting", "viable", "eco-friendly"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w20",
+      "term": "leisure",
+      "phonetic": "/ˈleʒər/",
+      "pos": "noun",
+      "definition_en": "Free time for enjoyment",
+      "meaning_vi": "Thời gian rảnh, giải trí",
+      "examples": [
+        { "en": "Reading is my favorite leisure activity.", "vi": "Đọc sách là hoạt động giải trí yêu thích của tôi." },
+        { "en": "I have little leisure time these days.", "vi": "Dạo này tôi có ít thời gian rảnh." }
+      ],
+      "synonyms": ["relaxation", "recreation", "free time"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w21",
+      "term": "deadline",
+      "phonetic": "/ˈdedlaɪn/",
+      "pos": "noun",
+      "definition_en": "The latest time by which something must be done",
+      "meaning_vi": "Hạn chót, thời hạn",
+      "examples": [
+        { "en": "The deadline is next Friday.", "vi": "Hạn chót là thứ Sáu tuần sau." },
+        { "en": "We must meet the deadline.", "vi": "Chúng ta phải hoàn thành đúng hạn." }
+      ],
+      "synonyms": ["due date", "time limit", "cutoff"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w22",
+      "term": "collaborate",
+      "phonetic": "/kəˈlæbəreɪt/",
+      "pos": "verb",
+      "definition_en": "To work together on a project",
+      "meaning_vi": "Hợp tác, cộng tác",
+      "examples": [
+        { "en": "We collaborate with other teams.", "vi": "Chúng tôi hợp tác với các nhóm khác." },
+        { "en": "They collaborated on the research.", "vi": "Họ cộng tác trong nghiên cứu." }
+      ],
+      "synonyms": ["cooperate", "partner", "team up"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w23",
+      "term": "prioritize",
+      "phonetic": "/praɪˈɔːrɪtaɪz/",
+      "pos": "verb",
+      "definition_en": "To arrange in order of importance",
+      "meaning_vi": "Sắp xếp ưu tiên",
+      "examples": [
+        { "en": "We need to prioritize our tasks.", "vi": "Chúng ta cần sắp xếp ưu tiên công việc." },
+        { "en": "She prioritizes family over work.", "vi": "Cô ấy đặt gia đình lên trước công việc." }
+      ],
+      "synonyms": ["rank", "order", "sort"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w24",
+      "term": "delegate",
+      "phonetic": "/ˈdelɪɡeɪt/",
+      "pos": "verb",
+      "definition_en": "To assign responsibility to someone",
+      "meaning_vi": "Ủy quyền, giao việc",
+      "examples": [
+        { "en": "Learn to delegate tasks effectively.", "vi": "Học cách giao việc hiệu quả." },
+        { "en": "She delegated the work to her team.", "vi": "Cô ấy giao công việc cho nhóm của mình." }
+      ],
+      "synonyms": ["assign", "entrust", "transfer"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w25",
+      "term": "efficient",
+      "phonetic": "/ɪˈfɪʃnt/",
+      "pos": "adj",
+      "definition_en": "Achieving maximum results with minimum effort",
+      "meaning_vi": "Hiệu quả, năng suất",
+      "examples": [
+        { "en": "She is very efficient at her job.", "vi": "Cô ấy làm việc rất hiệu quả." },
+        { "en": "We need a more efficient system.", "vi": "Chúng ta cần một hệ thống hiệu quả hơn." }
+      ],
+      "synonyms": ["productive", "effective", "capable"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w26",
+      "term": "feedback",
+      "phonetic": "/ˈfiːdbæk/",
+      "pos": "noun",
+      "definition_en": "Information about reactions to something",
+      "meaning_vi": "Phản hồi, góp ý",
+      "examples": [
+        { "en": "I appreciate your feedback.", "vi": "Tôi đánh giá cao phản hồi của bạn." },
+        { "en": "We need honest feedback.", "vi": "Chúng tôi cần phản hồi trung thực." }
+      ],
+      "synonyms": ["response", "reaction", "input"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w27",
+      "term": "implement",
+      "phonetic": "/ˈɪmplɪment/",
+      "pos": "verb",
+      "definition_en": "To put a plan into action",
+      "meaning_vi": "Thực hiện, triển khai",
+      "examples": [
+        { "en": "We will implement the new policy.", "vi": "Chúng tôi sẽ triển khai chính sách mới." },
+        { "en": "The plan was implemented successfully.", "vi": "Kế hoạch đã được thực hiện thành công." }
+      ],
+      "synonyms": ["execute", "apply", "carry out"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w28",
+      "term": "negotiate",
+      "phonetic": "/nɪˈɡoʊʃieɪt/",
+      "pos": "verb",
+      "definition_en": "To discuss terms to reach an agreement",
+      "meaning_vi": "Đàm phán, thương lượng",
+      "examples": [
+        { "en": "They negotiated a better deal.", "vi": "Họ đã thương lượng được một thỏa thuận tốt hơn." },
+        { "en": "We need to negotiate the contract.", "vi": "Chúng ta cần đàm phán hợp đồng." }
+      ],
+      "synonyms": ["bargain", "discuss", "mediate"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w29",
+      "term": "proposal",
+      "phonetic": "/prəˈpoʊzl/",
+      "pos": "noun",
+      "definition_en": "A plan or suggestion for consideration",
+      "meaning_vi": "Đề xuất, đề nghị",
+      "examples": [
+        { "en": "She submitted a business proposal.", "vi": "Cô ấy nộp một đề xuất kinh doanh." },
+        { "en": "The proposal was approved.", "vi": "Đề xuất đã được phê duyệt." }
+      ],
+      "synonyms": ["suggestion", "plan", "offer"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w30",
+      "term": "productive",
+      "phonetic": "/prəˈdʌktɪv/",
+      "pos": "adj",
+      "definition_en": "Producing good results or much output",
+      "meaning_vi": "Năng suất, hiệu quả",
+      "examples": [
+        { "en": "It was a productive meeting.", "vi": "Đó là một cuộc họp hiệu quả." },
+        { "en": "She had a productive day.", "vi": "Cô ấy có một ngày làm việc năng suất." }
+      ],
+      "synonyms": ["effective", "fruitful", "useful"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w31",
+      "term": "community",
+      "phonetic": "/kəˈmjuːnɪti/",
+      "pos": "noun",
+      "definition_en": "A group of people living in the same area",
+      "meaning_vi": "Cộng đồng",
+      "examples": [
+        { "en": "The community came together to help.", "vi": "Cộng đồng đã cùng nhau giúp đỡ." },
+        { "en": "She's active in the local community.", "vi": "Cô ấy hoạt động tích cực trong cộng đồng địa phương." }
+      ],
+      "synonyms": ["society", "neighborhood", "population"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w32",
+      "term": "diversity",
+      "phonetic": "/daɪˈvɜːrsɪti/",
+      "pos": "noun",
+      "definition_en": "A range of different types or varieties",
+      "meaning_vi": "Sự đa dạng",
+      "examples": [
+        { "en": "We celebrate diversity in our company.", "vi": "Chúng tôi tôn vinh sự đa dạng trong công ty." },
+        { "en": "Diversity strengthens communities.", "vi": "Sự đa dạng làm mạnh cộng đồng." }
+      ],
+      "synonyms": ["variety", "difference", "range"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w33",
+      "term": "equality",
+      "phonetic": "/ɪˈkwɒlɪti/",
+      "pos": "noun",
+      "definition_en": "The state of being equal in rights",
+      "meaning_vi": "Bình đẳng",
+      "examples": [
+        { "en": "They fight for gender equality.", "vi": "Họ đấu tranh cho bình đẳng giới." },
+        { "en": "Equality is a basic human right.", "vi": "Bình đẳng là quyền cơ bản của con người." }
+      ],
+      "synonyms": ["fairness", "equity", "justice"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w34",
+      "term": "volunteer",
+      "phonetic": "/ˌvɒlənˈtɪər/",
+      "pos": "noun",
+      "definition_en": "A person who offers to help without pay",
+      "meaning_vi": "Tình nguyện viên",
+      "examples": [
+        { "en": "She works as a volunteer at the shelter.", "vi": "Cô ấy làm tình nguyện viên tại nơi trú ẩn." },
+        { "en": "We need more volunteers.", "vi": "Chúng tôi cần thêm tình nguyện viên." }
+      ],
+      "synonyms": ["helper", "assistant", "contributor"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w35",
+      "term": "advocate",
+      "phonetic": "/ˈædvəkət/",
+      "pos": "noun",
+      "definition_en": "A person who supports a cause publicly",
+      "meaning_vi": "Người ủng hộ, người vận động",
+      "examples": [
+        { "en": "She is an advocate for children's rights.", "vi": "Cô ấy là người vận động cho quyền trẻ em." },
+        { "en": "We need advocates for change.", "vi": "Chúng ta cần những người vận động cho sự thay đổi." }
+      ],
+      "synonyms": ["supporter", "champion", "promoter"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w36",
+      "term": "prejudice",
+      "phonetic": "/ˈpredʒʊdɪs/",
+      "pos": "noun",
+      "definition_en": "An unfair opinion formed without knowledge",
+      "meaning_vi": "Định kiến, thành kiến",
+      "examples": [
+        { "en": "We must overcome prejudice.", "vi": "Chúng ta phải vượt qua định kiến." },
+        { "en": "Prejudice leads to discrimination.", "vi": "Định kiến dẫn đến phân biệt đối xử." }
+      ],
+      "synonyms": ["bias", "discrimination", "intolerance"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w37",
+      "term": "inclusive",
+      "phonetic": "/ɪnˈkluːsɪv/",
+      "pos": "adj",
+      "definition_en": "Including all types of people",
+      "meaning_vi": "Hòa nhập, bao gồm tất cả",
+      "examples": [
+        { "en": "We aim for an inclusive workplace.", "vi": "Chúng tôi hướng đến nơi làm việc hòa nhập." },
+        { "en": "The event was designed to be inclusive.", "vi": "Sự kiện được thiết kế để bao gồm tất cả mọi người." }
+      ],
+      "synonyms": ["welcoming", "open", "accessible"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w38",
+      "term": "solidarity",
+      "phonetic": "/ˌsɒlɪˈdærɪti/",
+      "pos": "noun",
+      "definition_en": "Unity based on shared interests",
+      "meaning_vi": "Sự đoàn kết",
+      "examples": [
+        { "en": "They showed solidarity with the workers.", "vi": "Họ thể hiện sự đoàn kết với công nhân." },
+        { "en": "Solidarity makes us stronger.", "vi": "Đoàn kết làm chúng ta mạnh mẽ hơn." }
+      ],
+      "synonyms": ["unity", "togetherness", "support"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w39",
+      "term": "welfare",
+      "phonetic": "/ˈwelfer/",
+      "pos": "noun",
+      "definition_en": "The health and happiness of people",
+      "meaning_vi": "Phúc lợi, hạnh phúc",
+      "examples": [
+        { "en": "The welfare of children is paramount.", "vi": "Phúc lợi của trẻ em là quan trọng nhất." },
+        { "en": "They work for animal welfare.", "vi": "Họ làm việc vì phúc lợi động vật." }
+      ],
+      "synonyms": ["well-being", "benefit", "good"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w40",
+      "term": "philanthropy",
+      "phonetic": "/fɪˈlænθrəpi/",
+      "pos": "noun",
+      "definition_en": "The act of helping those in need",
+      "meaning_vi": "Từ thiện, lòng nhân ái",
+      "examples": [
+        { "en": "His philanthropy helped many people.", "vi": "Hoạt động từ thiện của anh ấy đã giúp được nhiều người." },
+        { "en": "She is known for her philanthropy.", "vi": "Cô ấy nổi tiếng với lòng nhân ái." }
+      ],
+      "synonyms": ["charity", "generosity", "benevolence"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w41",
+      "term": "procrastinate",
+      "phonetic": "/proʊˈkræstɪneɪt/",
+      "pos": "verb",
+      "definition_en": "To delay or postpone action",
+      "meaning_vi": "Trì hoãn, chần chừ",
+      "examples": [
+        { "en": "Stop procrastinating and start working.", "vi": "Ngừng trì hoãn và bắt đầu làm việc." },
+        { "en": "I tend to procrastinate on boring tasks.", "vi": "Tôi hay chần chừ với những công việc nhàm chán." }
+      ],
+      "synonyms": ["delay", "postpone", "put off"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w42",
+      "term": "ambitious",
+      "phonetic": "/æmˈbɪʃəs/",
+      "pos": "adj",
+      "definition_en": "Having a strong desire for success",
+      "meaning_vi": "Tham vọng, đầy hoài bão",
+      "examples": [
+        { "en": "She is very ambitious.", "vi": "Cô ấy rất tham vọng." },
+        { "en": "That's an ambitious goal.", "vi": "Đó là một mục tiêu đầy hoài bão." }
+      ],
+      "synonyms": ["driven", "determined", "aspiring"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w43",
+      "term": "authentic",
+      "phonetic": "/ɔːˈθentɪk/",
+      "pos": "adj",
+      "definition_en": "Genuine, not fake or copied",
+      "meaning_vi": "Chính hiệu, thật sự",
+      "examples": [
+        { "en": "This is an authentic painting.", "vi": "Đây là một bức tranh chính hiệu." },
+        { "en": "Be authentic, be yourself.", "vi": "Hãy là chính mình, thật sự là mình." }
+      ],
+      "synonyms": ["genuine", "real", "original"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w44",
+      "term": "breakthrough",
+      "phonetic": "/ˈbreɪkθruː/",
+      "pos": "noun",
+      "definition_en": "An important discovery or development",
+      "meaning_vi": "Bước đột phá",
+      "examples": [
+        { "en": "Scientists made a breakthrough.", "vi": "Các nhà khoa học đã có bước đột phá." },
+        { "en": "This is a major breakthrough.", "vi": "Đây là một bước đột phá lớn." }
+      ],
+      "synonyms": ["advance", "discovery", "achievement"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w45",
+      "term": "compromise",
+      "phonetic": "/ˈkɒmprəmaɪz/",
+      "pos": "noun",
+      "definition_en": "An agreement where both sides give up something",
+      "meaning_vi": "Thỏa hiệp, nhượng bộ",
+      "examples": [
+        { "en": "We reached a compromise.", "vi": "Chúng tôi đã đạt được thỏa hiệp." },
+        { "en": "Marriage requires compromise.", "vi": "Hôn nhân đòi hỏi sự thỏa hiệp." }
+      ],
+      "synonyms": ["agreement", "settlement", "deal"],
+      "categoryId": "society"
+    },
+    {
+      "id": "w46",
+      "term": "diligent",
+      "phonetic": "/ˈdɪlɪdʒənt/",
+      "pos": "adj",
+      "definition_en": "Showing careful and persistent effort",
+      "meaning_vi": "Siêng năng, cần cù",
+      "examples": [
+        { "en": "She is a diligent student.", "vi": "Cô ấy là một học sinh siêng năng." },
+        { "en": "Diligent work pays off.", "vi": "Làm việc cần cù sẽ được đền đáp." }
+      ],
+      "synonyms": ["hardworking", "industrious", "dedicated"],
+      "categoryId": "office"
+    },
+    {
+      "id": "w47",
+      "term": "versatile",
+      "phonetic": "/ˈvɜːrsətaɪl/",
+      "pos": "adj",
+      "definition_en": "Able to adapt to many different activities",
+      "meaning_vi": "Đa năng, linh hoạt",
+      "examples": [
+        { "en": "He is a versatile player.", "vi": "Anh ấy là một cầu thủ đa năng." },
+        { "en": "This tool is very versatile.", "vi": "Công cụ này rất linh hoạt." }
+      ],
+      "synonyms": ["adaptable", "flexible", "all-around"],
+      "categoryId": "daily_life"
+    },
+    {
+      "id": "w48",
+      "term": "perseverance",
+      "phonetic": "/ˌpɜːrsɪˈvɪərəns/",
+      "pos": "noun",
+      "definition_en": "Persistence in doing something despite difficulty",
+      "meaning_vi": "Sự kiên trì, bền bỉ",
+      "examples": [
+        { "en": "Success requires perseverance.", "vi": "Thành công đòi hỏi sự kiên trì." },
+        { "en": "Her perseverance paid off.", "vi": "Sự kiên trì của cô ấy đã được đền đáp." }
+      ],
+      "synonyms": ["persistence", "determination", "tenacity"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w49",
+      "term": "intuition",
+      "phonetic": "/ˌɪntjuˈɪʃn/",
+      "pos": "noun",
+      "definition_en": "The ability to understand something instinctively",
+      "meaning_vi": "Trực giác",
+      "examples": [
+        { "en": "Trust your intuition.", "vi": "Hãy tin vào trực giác của bạn." },
+        { "en": "Her intuition was right.", "vi": "Trực giác của cô ấy đã đúng." }
+      ],
+      "synonyms": ["instinct", "gut feeling", "insight"],
+      "categoryId": "emotions"
+    },
+    {
+      "id": "w50",
+      "term": "milestone",
+      "phonetic": "/ˈmaɪlstoʊn/",
+      "pos": "noun",
+      "definition_en": "An important stage or event in development",
+      "meaning_vi": "Cột mốc quan trọng",
+      "examples": [
+        { "en": "This is a major milestone.", "vi": "Đây là một cột mốc quan trọng." },
+        { "en": "We celebrated hitting this milestone.", "vi": "Chúng tôi ăn mừng đạt được cột mốc này." }
+      ],
+      "synonyms": ["landmark", "achievement", "turning point"],
+      "categoryId": "daily_life"
+    }
+  ]
+}
