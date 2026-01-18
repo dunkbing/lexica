@@ -6,66 +6,66 @@
 
 import { Platform } from "react-native";
 
-// Light theme colors - Warm & Inviting
+// Light theme colors - Black/white grayscale
 const lightColors = {
-  primary: "#5B9A8B", // Sage teal - calming, focused
+  primary: "#111111",
   onPrimary: "#FFFFFF",
-  primaryContainer: "#E8F4F1",
-  onPrimaryContainer: "#2D5A50",
-  secondary: "#7C9885", // Muted green
+  primaryContainer: "#E5E5E5",
+  onPrimaryContainer: "#111111",
+  secondary: "#2A2A2A",
   onSecondary: "#FFFFFF",
-  secondaryContainer: "#E8F0EA",
-  onSecondaryContainer: "#3D5243",
-  tertiary: "#E8A87C", // Warm peach
+  secondaryContainer: "#F0F0F0",
+  onSecondaryContainer: "#1A1A1A",
+  tertiary: "#3A3A3A",
   onTertiary: "#FFFFFF",
-  tertiaryContainer: "#FDF4EE",
-  onTertiaryContainer: "#8B5A3C",
-  accent: "#F2C94C", // Golden yellow for streaks
-  error: "#E57373",
-  errorContainer: "#FDEAEA",
+  tertiaryContainer: "#F5F5F5",
+  onTertiaryContainer: "#1A1A1A",
+  accent: "#000000",
+  error: "#1A1A1A",
+  errorContainer: "#E5E5E5",
   onError: "#FFFFFF",
-  onErrorContainer: "#8B3D39",
-  background: "#FAF8F5", // Warm off-white
-  onBackground: "#2D2D2D",
+  onErrorContainer: "#111111",
+  background: "#FAFAFA",
+  onBackground: "#1A1A1A",
   surface: "#FFFFFF",
-  onSurface: "#2D2D2D",
-  surfaceVariant: "#F5F2EE", // Warm light gray
-  onSurfaceVariant: "#6B6B6B",
-  outline: "#E0DCD5", // Warm border
-  outlineVariant: "#EAE6E0",
-  success: "#6AAF8D", // Soft green
-  warning: "#F5A623", // Orange
+  onSurface: "#1A1A1A",
+  surfaceVariant: "#F0F0F0",
+  onSurfaceVariant: "#6A6A6A",
+  outline: "#D6D6D6",
+  outlineVariant: "#E5E5E5",
+  success: "#2A2A2A",
+  warning: "#3A3A3A",
 };
 
-// Dark theme colors
+// Dark theme colors - Black/white grayscale
 const darkColors = {
-  primary: "#7BC4B5", // Lighter sage teal for dark mode
-  onPrimary: "#1A1A1A",
-  primaryContainer: "#2D5A50",
-  onPrimaryContainer: "#E8F4F1",
-  secondary: "#9CB8A3",
-  onSecondary: "#1A1A1A",
-  secondaryContainer: "#3D5243",
-  onSecondaryContainer: "#E8F0EA",
-  tertiary: "#F0B896",
-  onTertiary: "#1A1A1A",
-  tertiaryContainer: "#8B5A3C",
-  onTertiaryContainer: "#FDF4EE",
-  accent: "#F2C94C",
-  error: "#FF8A80",
-  errorContainer: "#2D1B1B",
-  onError: "#1A1A1A",
-  onErrorContainer: "#FFCDD2",
-  background: "#1C1C1E", // Dark gray
-  onBackground: "#F5F5F5",
-  surface: "#2C2C2E",
-  onSurface: "#F5F5F5",
-  surfaceVariant: "#3A3A3C",
-  onSurfaceVariant: "#C7C7CC",
-  outline: "#48484A",
-  outlineVariant: "#3A3A3C",
-  success: "#81C995",
-  warning: "#FFB74D",
+  primary: "#F0F0F0",
+  onPrimary: "#111111",
+  primaryContainer: "#2A2A2A",
+  onPrimaryContainer: "#F5F5F5",
+  secondary: "#D6D6D6",
+  onSecondary: "#111111",
+  secondaryContainer: "#3A3A3A",
+  onSecondaryContainer: "#F0F0F0",
+  tertiary: "#C5C5C5",
+  onTertiary: "#111111",
+  tertiaryContainer: "#4A4A4A",
+  onTertiaryContainer: "#FAFAFA",
+  accent: "#FFFFFF",
+  error: "#E5E5E5",
+  errorContainer: "#2A2A2A",
+  onError: "#111111",
+  onErrorContainer: "#F0F0F0",
+  background: "#111111",
+  onBackground: "#FAFAFA",
+  surface: "#1A1A1A",
+  onSurface: "#FAFAFA",
+  surfaceVariant: "#2A2A2A",
+  onSurfaceVariant: "#B0B0B0",
+  outline: "#3A3A3A",
+  outlineVariant: "#2A2A2A",
+  success: "#D6D6D6",
+  warning: "#C5C5C5",
 };
 
 export const Colors = {
@@ -94,22 +94,22 @@ export const Colors = {
     cardBackground: "#FFFFFF",
     inputBackground: lightColors.surfaceVariant,
     sheetBackground: "#FFFFFF",
-    sheetHandle: "#D1D5DB",
-    divider: "#E5E7EB",
-    muted: "#9CA3AF",
-    placeholder: "#B8B5B0",
+    sheetHandle: "#B0B0B0",
+    divider: "#E5E5E5",
+    muted: "#8A8A8A",
+    placeholder: "#9A9A9A",
     chip: lightColors.surfaceVariant,
     chipText: lightColors.onSurfaceVariant,
     // Word card specific
     wordCardBg: "#FFFFFF",
     pronunciationPill: lightColors.surfaceVariant,
     // Game specific
-    correctAnswer: "#D4EDDA",
-    incorrectAnswer: "#F8D7DA",
+    correctAnswer: "#E5E5E5",
+    incorrectAnswer: "#D6D6D6",
     selectedOption: lightColors.primaryContainer,
     // Streak
-    streakFire: "#FF6B35",
-    streakInactive: "#E0DCD5",
+    streakFire: "#111111",
+    streakInactive: "#D6D6D6",
     streakActive: lightColors.primary,
   },
   dark: {
@@ -137,22 +137,22 @@ export const Colors = {
     cardBackground: darkColors.surfaceVariant,
     inputBackground: darkColors.surfaceVariant,
     sheetBackground: darkColors.surface,
-    sheetHandle: "#4B5563",
-    divider: "#3A3A3C",
-    muted: "#9CA3AF",
-    placeholder: "#6B7280",
+    sheetHandle: "#6A6A6A",
+    divider: "#3A3A3A",
+    muted: "#B0B0B0",
+    placeholder: "#8A8A8A",
     chip: darkColors.surfaceVariant,
     chipText: darkColors.onSurfaceVariant,
     // Word card specific
     wordCardBg: darkColors.surface,
     pronunciationPill: darkColors.surfaceVariant,
     // Game specific
-    correctAnswer: "#1E3A28",
-    incorrectAnswer: "#3A1E1E",
+    correctAnswer: "#2A2A2A",
+    incorrectAnswer: "#3A3A3A",
     selectedOption: darkColors.primaryContainer,
     // Streak
-    streakFire: "#FF6B35",
-    streakInactive: "#48484A",
+    streakFire: "#FFFFFF",
+    streakInactive: "#3A3A3A",
     streakActive: darkColors.primary,
   },
 };
