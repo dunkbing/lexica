@@ -14,7 +14,6 @@ import * as Haptics from "expo-haptics";
 
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Pill } from "@/components/ui/pill";
-import { PrimaryButton } from "@/components/ui/primary-button";
 import { IconButton } from "@/components/ui/icon-button";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useWordStore } from "@/store/wordStore";
@@ -288,14 +287,6 @@ export default function WordDetailScreen() {
             </Text>
           </View>
         )}
-
-        {/* Practice Button */}
-        <PrimaryButton
-          title={t("word.practice")}
-          onPress={() => router.push(`/practice/word/${word.id}`)}
-          icon={<IconSymbol name="sparkles" size={20} color="#FFFFFF" />}
-          style={styles.practiceButton}
-        />
       </ScrollView>
     </View>
   );
@@ -421,9 +412,6 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.md,
     fontStyle: "italic",
     lineHeight: 24,
-  },
-  practiceButton: {
-    marginTop: Spacing.lg,
   },
   notFound: {
     flex: 1,

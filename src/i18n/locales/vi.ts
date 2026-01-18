@@ -22,7 +22,9 @@ export default {
   },
   tabs: {
     home: "Từ vựng",
+    dictionary: "Từ điển",
     practice: "Luyện tập",
+    stats: "Thống kê",
     profile: "Hồ sơ",
   },
   home: {
@@ -99,6 +101,12 @@ export default {
     thatsWrong: "Sai rồi!",
     nextWord: "Từ tiếp theo",
     definition: "Định nghĩa",
+  },
+  dictionary: {
+    title: "Từ điển",
+    wordCount: "{{count}} từ",
+    searchPlaceholder: "Tìm kiếm từ...",
+    noResults: "Không tìm thấy từ nào",
   },
   categories: {
     title: "Chủ đề",

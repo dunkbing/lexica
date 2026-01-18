@@ -22,7 +22,9 @@ export default {
   },
   tabs: {
     home: "Words",
+    dictionary: "Dictionary",
     practice: "Practice",
+    stats: "Stats",
     profile: "Profile",
   },
   home: {
@@ -99,6 +101,12 @@ export default {
     thatsWrong: "That's wrong!",
     nextWord: "Next word",
     definition: "Definition",
+  },
+  dictionary: {
+    title: "Dictionary",
+    wordCount: "{{count}} words",
+    searchPlaceholder: "Search words...",
+    noResults: "No words found",
   },
   categories: {
     title: "Categories",

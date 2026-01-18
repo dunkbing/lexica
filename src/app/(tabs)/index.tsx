@@ -10,7 +10,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { WordCard } from "@/components/word-card";
-import { BottomNav } from "@/components/bottom-nav";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { PrimaryButton } from "@/components/ui/primary-button";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -231,7 +230,6 @@ export default function HomeScreen() {
             />
           </View>
         </View>
-        <BottomNav />
       </View>
     );
   }
@@ -244,7 +242,6 @@ export default function HomeScreen() {
             {t("common.loading")}
           </Text>
         </View>
-        <BottomNav />
       </View>
     );
   }
@@ -354,9 +351,6 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-
-      {/* Bottom Navigation */}
-      <BottomNav />
     </View>
   );
 }
@@ -428,7 +422,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: Spacing.xl,
-    paddingBottom: 120,
+    paddingBottom: Spacing.xl,
   },
   nextCardContainer: {
     position: "absolute",

@@ -95,14 +95,7 @@ export default function RootLayout() {
         <I18nextProvider i18n={i18n}>
           <ThemeProvider value={navigationTheme}>
             <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen
-                name="practice"
-                options={{
-                  presentation: "transparentModal",
-                  animation: "slide_from_bottom",
-                }}
-              />
+              <Stack.Screen name="(tabs)" />
               <Stack.Screen
                 name="categories"
                 options={{
@@ -117,14 +110,11 @@ export default function RootLayout() {
                   animation: "slide_from_bottom",
                 }}
               />
-              <Stack.Screen
-                name="stats"
-                options={{
-                  presentation: "transparentModal",
-                  animation: "slide_from_bottom",
-                }}
-              />
               <Stack.Screen name="word/[id]" />
+              <Stack.Screen name="practice/meaning-match" />
+              <Stack.Screen name="practice/fill-gap" />
+              <Stack.Screen name="practice/guess-word" />
+              <Stack.Screen name="practice/synonyms" />
               <Stack.Screen
                 name="settings"
                 options={{
