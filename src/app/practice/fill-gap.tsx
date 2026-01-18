@@ -70,10 +70,12 @@ export default function FillGapScreen() {
 
     // Filter words that have examples
     const wordsWithExamples = words.filter(
-      (w) => w.examples && w.examples.length > 0
+      (w) => w.examples && w.examples.length > 0,
     );
 
-    const shuffledWords = [...wordsWithExamples].sort(() => Math.random() - 0.5);
+    const shuffledWords = [...wordsWithExamples].sort(
+      () => Math.random() - 0.5,
+    );
     const selectedWords = shuffledWords.slice(0, QUESTIONS_COUNT);
 
     const generatedQuestions: Question[] = selectedWords.map((word) => {
@@ -95,7 +97,8 @@ export default function FillGapScreen() {
   }, [words]);
 
   const currentQuestion = questions[currentIndex];
-  const progress = questions.length > 0 ? (currentIndex + 1) / questions.length : 0;
+  const progress =
+    questions.length > 0 ? (currentIndex + 1) / questions.length : 0;
 
   const handleSubmit = useCallback(() => {
     if (!currentQuestion || !userAnswer.trim()) return;
@@ -122,7 +125,13 @@ export default function FillGapScreen() {
     } else {
       recordIncorrectAnswer(currentQuestion.word.id);
     }
-  }, [currentQuestion, userAnswer, hapticsEnabled, recordCorrectAnswer, recordIncorrectAnswer]);
+  }, [
+    currentQuestion,
+    userAnswer,
+    hapticsEnabled,
+    recordCorrectAnswer,
+    recordIncorrectAnswer,
+  ]);
 
   const handleNext = useCallback(() => {
     if (currentIndex >= questions.length - 1) {
@@ -146,10 +155,12 @@ export default function FillGapScreen() {
 
     // Regenerate questions
     const wordsWithExamples = words.filter(
-      (w) => w.examples && w.examples.length > 0
+      (w) => w.examples && w.examples.length > 0,
     );
 
-    const shuffledWords = [...wordsWithExamples].sort(() => Math.random() - 0.5);
+    const shuffledWords = [...wordsWithExamples].sort(
+      () => Math.random() - 0.5,
+    );
     const selectedWords = shuffledWords.slice(0, QUESTIONS_COUNT);
 
     const generatedQuestions: Question[] = selectedWords.map((word) => {
@@ -179,11 +190,21 @@ export default function FillGapScreen() {
           <View
             style={[
               styles.resultIcon,
-              { backgroundColor: isPerfect ? `${successColor}20` : `${primaryColor}20` },
+              {
+                backgroundColor: isPerfect
+                  ? `${successColor}20`
+                  : `${primaryColor}20`,
+              },
             ]}
           >
             <IconSymbol
-              name={isPerfect ? "star.fill" : isGood ? "checkmark.circle.fill" : "arrow.clockwise"}
+              name={
+                isPerfect
+                  ? "star.fill"
+                  : isGood
+                    ? "checkmark.circle.fill"
+                    : "arrow.clockwise"
+              }
               size={64}
               color={isPerfect ? successColor : primaryColor}
             />
@@ -198,7 +219,12 @@ export default function FillGapScreen() {
           </Text>
 
           <View style={styles.resultStats}>
-            <View style={[styles.resultStat, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.resultStat,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.resultStatValue, { color: successColor }]}>
                 {correctCount}
               </Text>
@@ -206,7 +232,12 @@ export default function FillGapScreen() {
                 {t("practice.correct")}
               </Text>
             </View>
-            <View style={[styles.resultStat, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.resultStat,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.resultStatValue, { color: errorColor }]}>
                 {questions.length - correctCount}
               </Text>
@@ -214,7 +245,12 @@ export default function FillGapScreen() {
                 {t("practice.incorrect")}
               </Text>
             </View>
-            <View style={[styles.resultStat, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.resultStat,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.resultStatValue, { color: primaryColor }]}>
                 {accuracy}%
               </Text>
@@ -262,7 +298,10 @@ export default function FillGapScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + Spacing.md }]}>
         <TouchableOpacity
-          style={[styles.closeButton, { backgroundColor: cardBackground, borderColor }]}
+          style={[
+            styles.closeButton,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
           onPress={() => router.back()}
         >
           <IconSymbol name="xmark" size={20} color={textColor} />
@@ -285,9 +324,14 @@ export default function FillGapScreen() {
           {t("game.fillSentence")}
         </Text>
 
-        <View style={[styles.sentenceCard, { backgroundColor: cardBackground, borderColor }]}>
+        <View
+          style={[
+            styles.sentenceCard,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
+        >
           <Text style={[styles.sentence, { color: textColor }]}>
-            "{currentQuestion.blankSentence}"
+            {currentQuestion.blankSentence}
           </Text>
           <Text style={[styles.translation, { color: textSecondary }]}>
             {currentQuestion.word.examples[0].vi}
@@ -300,7 +344,7 @@ export default function FillGapScreen() {
             {currentQuestion.word.phonetic}
           </Text>
           <Text style={[styles.hintMeaning, { color: primaryColor }]}>
-            {currentQuestion.word.meaning_vi}
+            {currentQuestion.word.definition.vi}
           </Text>
         </View>
       </View>
@@ -334,7 +378,11 @@ export default function FillGapScreen() {
           <View style={styles.feedbackContainer}>
             {isCorrect ? (
               <View style={styles.feedbackRow}>
-                <IconSymbol name="checkmark.circle.fill" size={24} color={successColor} />
+                <IconSymbol
+                  name="checkmark.circle.fill"
+                  size={24}
+                  color={successColor}
+                />
                 <Text style={[styles.feedbackText, { color: successColor }]}>
                   {t("practice.correct")}!
                 </Text>
@@ -342,7 +390,11 @@ export default function FillGapScreen() {
             ) : (
               <View>
                 <View style={styles.feedbackRow}>
-                  <IconSymbol name="xmark.circle.fill" size={24} color={errorColor} />
+                  <IconSymbol
+                    name="xmark.circle.fill"
+                    size={24}
+                    color={errorColor}
+                  />
                   <Text style={[styles.feedbackText, { color: errorColor }]}>
                     {t("practice.incorrect")}
                   </Text>
@@ -357,7 +409,9 @@ export default function FillGapScreen() {
       </View>
 
       {/* Submit/Next Button */}
-      <View style={[styles.footer, { paddingBottom: insets.bottom + Spacing.xl }]}>
+      <View
+        style={[styles.footer, { paddingBottom: insets.bottom + Spacing.xl }]}
+      >
         {isAnswered ? (
           <PrimaryButton
             title={

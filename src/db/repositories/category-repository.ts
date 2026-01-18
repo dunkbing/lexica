@@ -43,7 +43,7 @@ export const getAllCategories = async (): Promise<Category[]> => {
       groupId: categories.groupId,
       nameEn: categories.nameEn,
       nameVi: categories.nameVi,
-      wordCount: sql<number>`(SELECT COUNT(*) FROM words WHERE words.category_id = categories.id)`,
+      wordCount: sql<number>`(SELECT COUNT(*) FROM word_categories WHERE word_categories.category_id = categories.id)`,
     })
     .from(categories);
 
@@ -68,7 +68,7 @@ export const getCategoriesByGroup = async (
       groupId: categories.groupId,
       nameEn: categories.nameEn,
       nameVi: categories.nameVi,
-      wordCount: sql<number>`(SELECT COUNT(*) FROM words WHERE words.category_id = categories.id)`,
+      wordCount: sql<number>`(SELECT COUNT(*) FROM word_categories WHERE word_categories.category_id = categories.id)`,
     })
     .from(categories)
     .where(eq(categories.groupId, groupId));
@@ -94,7 +94,7 @@ export const getCategoryById = async (
       groupId: categories.groupId,
       nameEn: categories.nameEn,
       nameVi: categories.nameVi,
-      wordCount: sql<number>`(SELECT COUNT(*) FROM words WHERE words.category_id = categories.id)`,
+      wordCount: sql<number>`(SELECT COUNT(*) FROM word_categories WHERE word_categories.category_id = categories.id)`,
     })
     .from(categories)
     .where(eq(categories.id, id));

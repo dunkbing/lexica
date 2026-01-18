@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-} from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -75,12 +69,14 @@ export default function MeaningMatchScreen() {
       // Get 3 wrong answers
       const otherWords = words.filter((w) => w.id !== word.id);
       const shuffledOthers = [...otherWords].sort(() => Math.random() - 0.5);
-      const wrongAnswers = shuffledOthers.slice(0, 3).map((w) =>
-        isVietnamese ? w.meaning_vi : w.definition_en
-      );
+      const wrongAnswers = shuffledOthers
+        .slice(0, 3)
+        .map((w) => (isVietnamese ? w.definition.vi : w.definition.en));
 
       // Create options array with correct answer at random position
-      const correctAnswer = isVietnamese ? word.meaning_vi : word.definition_en;
+      const correctAnswer = isVietnamese
+        ? word.definition.vi
+        : word.definition.en;
       const correctIndex = Math.floor(Math.random() * 4);
       const options = [...wrongAnswers];
       options.splice(correctIndex, 0, correctAnswer);
@@ -96,7 +92,8 @@ export default function MeaningMatchScreen() {
   }, [words, isVietnamese]);
 
   const currentQuestion = questions[currentIndex];
-  const progress = questions.length > 0 ? (currentIndex + 1) / questions.length : 0;
+  const progress =
+    questions.length > 0 ? (currentIndex + 1) / questions.length : 0;
 
   const handleSelectAnswer = useCallback(
     (index: number) => {
@@ -124,7 +121,13 @@ export default function MeaningMatchScreen() {
         recordIncorrectAnswer(currentQuestion.word.id);
       }
     },
-    [isAnswered, currentQuestion, hapticsEnabled, recordCorrectAnswer, recordIncorrectAnswer]
+    [
+      isAnswered,
+      currentQuestion,
+      hapticsEnabled,
+      recordCorrectAnswer,
+      recordIncorrectAnswer,
+    ],
   );
 
   const handleNext = useCallback(() => {
@@ -153,11 +156,13 @@ export default function MeaningMatchScreen() {
     const generatedQuestions: Question[] = selectedWords.map((word) => {
       const otherWords = words.filter((w) => w.id !== word.id);
       const shuffledOthers = [...otherWords].sort(() => Math.random() - 0.5);
-      const wrongAnswers = shuffledOthers.slice(0, 3).map((w) =>
-        isVietnamese ? w.meaning_vi : w.definition_en
-      );
+      const wrongAnswers = shuffledOthers
+        .slice(0, 3)
+        .map((w) => (isVietnamese ? w.definition.vi : w.definition.en));
 
-      const correctAnswer = isVietnamese ? word.meaning_vi : word.definition_en;
+      const correctAnswer = isVietnamese
+        ? word.definition.vi
+        : word.definition.en;
       const correctIndex = Math.floor(Math.random() * 4);
       const options = [...wrongAnswers];
       options.splice(correctIndex, 0, correctAnswer);
@@ -178,7 +183,10 @@ export default function MeaningMatchScreen() {
     }
 
     if (index === currentQuestion?.correctIndex) {
-      return { backgroundColor: `${successColor}20`, borderColor: successColor };
+      return {
+        backgroundColor: `${successColor}20`,
+        borderColor: successColor,
+      };
     }
 
     if (index === selectedIndex && index !== currentQuestion?.correctIndex) {
@@ -213,11 +221,21 @@ export default function MeaningMatchScreen() {
           <View
             style={[
               styles.resultIcon,
-              { backgroundColor: isPerfect ? `${successColor}20` : `${primaryColor}20` },
+              {
+                backgroundColor: isPerfect
+                  ? `${successColor}20`
+                  : `${primaryColor}20`,
+              },
             ]}
           >
             <IconSymbol
-              name={isPerfect ? "star.fill" : isGood ? "checkmark.circle.fill" : "arrow.clockwise"}
+              name={
+                isPerfect
+                  ? "star.fill"
+                  : isGood
+                    ? "checkmark.circle.fill"
+                    : "arrow.clockwise"
+              }
               size={64}
               color={isPerfect ? successColor : primaryColor}
             />
@@ -232,7 +250,12 @@ export default function MeaningMatchScreen() {
           </Text>
 
           <View style={styles.resultStats}>
-            <View style={[styles.resultStat, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.resultStat,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.resultStatValue, { color: successColor }]}>
                 {correctCount}
               </Text>
@@ -240,7 +263,12 @@ export default function MeaningMatchScreen() {
                 {t("practice.correct")}
               </Text>
             </View>
-            <View style={[styles.resultStat, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.resultStat,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.resultStatValue, { color: errorColor }]}>
                 {questions.length - correctCount}
               </Text>
@@ -248,7 +276,12 @@ export default function MeaningMatchScreen() {
                 {t("practice.incorrect")}
               </Text>
             </View>
-            <View style={[styles.resultStat, { backgroundColor: cardBackground, borderColor }]}>
+            <View
+              style={[
+                styles.resultStat,
+                { backgroundColor: cardBackground, borderColor },
+              ]}
+            >
               <Text style={[styles.resultStatValue, { color: primaryColor }]}>
                 {accuracy}%
               </Text>
@@ -293,7 +326,10 @@ export default function MeaningMatchScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + Spacing.md }]}>
         <TouchableOpacity
-          style={[styles.closeButton, { backgroundColor: cardBackground, borderColor }]}
+          style={[
+            styles.closeButton,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
           onPress={() => router.back()}
         >
           <IconSymbol name="xmark" size={20} color={textColor} />
@@ -312,7 +348,9 @@ export default function MeaningMatchScreen() {
 
       {/* Streak indicator */}
       {streak > 1 && (
-        <View style={[styles.streakBadge, { backgroundColor: `${successColor}20` }]}>
+        <View
+          style={[styles.streakBadge, { backgroundColor: `${successColor}20` }]}
+        >
           <IconSymbol name="flame.fill" size={16} color={successColor} />
           <Text style={[styles.streakText, { color: successColor }]}>
             {t("game.streak", { count: streak })}
@@ -350,12 +388,20 @@ export default function MeaningMatchScreen() {
               {option}
             </Text>
             {isAnswered && index === currentQuestion.correctIndex && (
-              <IconSymbol name="checkmark.circle.fill" size={24} color={successColor} />
+              <IconSymbol
+                name="checkmark.circle.fill"
+                size={24}
+                color={successColor}
+              />
             )}
             {isAnswered &&
               index === selectedIndex &&
               index !== currentQuestion.correctIndex && (
-                <IconSymbol name="xmark.circle.fill" size={24} color={errorColor} />
+                <IconSymbol
+                  name="xmark.circle.fill"
+                  size={24}
+                  color={errorColor}
+                />
               )}
           </TouchableOpacity>
         ))}
@@ -363,7 +409,9 @@ export default function MeaningMatchScreen() {
 
       {/* Next Button */}
       {isAnswered && (
-        <View style={[styles.footer, { paddingBottom: insets.bottom + Spacing.xl }]}>
+        <View
+          style={[styles.footer, { paddingBottom: insets.bottom + Spacing.xl }]}
+        >
           <PrimaryButton
             title={
               currentIndex >= questions.length - 1

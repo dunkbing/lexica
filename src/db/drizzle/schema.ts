@@ -31,6 +31,13 @@ export const words = sqliteTable("words", {
   origin: text("origin"),
   audioUrl: text("audio_url"),
   level: text("level"), // beginner, intermediate, advanced
+});
+
+// Junction table for many-to-many word-category relationship
+export const wordCategories = sqliteTable("word_categories", {
+  wordId: text("word_id")
+    .notNull()
+    .references(() => words.id),
   categoryId: text("category_id")
     .notNull()
     .references(() => categories.id),
@@ -40,6 +47,7 @@ export const words = sqliteTable("words", {
 export type CategoryGroupRow = typeof categoryGroups.$inferSelect;
 export type CategoryRow = typeof categories.$inferSelect;
 export type WordRow = typeof words.$inferSelect;
+export type WordCategoryRow = typeof wordCategories.$inferSelect;
 export type NewCategoryGroup = typeof categoryGroups.$inferInsert;
 export type NewCategory = typeof categories.$inferInsert;
 export type NewWord = typeof words.$inferInsert;

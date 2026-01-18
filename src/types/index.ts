@@ -18,7 +18,7 @@ export interface Word {
   origin?: string;
   audioUrl?: string;
   level?: WordLevel;
-  categoryId: string;
+  categoryIds: string[];
 }
 
 // User state for each word

@@ -48,7 +48,7 @@ export const useWordStore = create<WordState>((set, get) => ({
 
       // Filter words by selected category if any
       const filteredWords = selectedCategoryId
-        ? words.filter((w) => w.categoryId === selectedCategoryId)
+        ? words.filter((w) => w.categoryIds.includes(selectedCategoryId))
         : words;
 
       // Shuffle and pick words for today
@@ -94,7 +94,7 @@ export const useWordStore = create<WordState>((set, get) => ({
 
     // Filter words by selected category if any
     const filteredWords = selectedCategoryId
-      ? words.filter((w) => w.categoryId === selectedCategoryId)
+      ? words.filter((w) => w.categoryIds.includes(selectedCategoryId))
       : words;
 
     const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);
@@ -109,7 +109,7 @@ export const useWordStore = create<WordState>((set, get) => ({
 
     // Filter words by selected category if any
     const filteredWords = categoryId
-      ? words.filter((w) => w.categoryId === categoryId)
+      ? words.filter((w) => w.categoryIds.includes(categoryId))
       : words;
 
     // Shuffle and pick words
@@ -127,7 +127,7 @@ export const useWordStore = create<WordState>((set, get) => ({
   },
 
   getWordsByCategory: (categoryId) => {
-    return get().words.filter((w) => w.categoryId === categoryId);
+    return get().words.filter((w) => w.categoryIds.includes(categoryId));
   },
 
   getRandomWords: (count, excludeIds = []) => {
