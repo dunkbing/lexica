@@ -23,11 +23,12 @@ import {
   FontWeights,
   Spacing,
 } from "@/constants/theme";
+import { getCategoryStyle } from "@/constants/category-styles";
 
 const SCROLL_THRESHOLD = 50;
 
 export default function PracticeScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const hapticsEnabled = useAppStore((s) => s.hapticsEnabled);
@@ -206,60 +207,37 @@ export default function PracticeScreen() {
               {t("practice.categories")}
             </Text>
             <View style={styles.categoriesList}>
-              {categories.map((category) => (
-                <CategoryRow
-                  key={category.id}
-                  title={t(`categories.${category.id}`)}
-                  subtitle={t("practice.wordsCount", {
-                    count: category.wordCount,
-                  })}
-                  icon={
-                    <IconSymbol
-                      name={getCategoryIcon(category.id)}
-                      size={22}
-                      color={primaryColor}
-                    />
-                  }
-                  onPress={() => handleCategory(category.id)}
-                  color={getCategoryColor(category.id)}
-                />
-              ))}
+              {categories.map((category) => {
+                const style = getCategoryStyle(category.id);
+                return (
+                  <CategoryRow
+                    key={category.id}
+                    title={
+                      i18n.language === "vi"
+                        ? category.name_vi
+                        : category.name_en
+                    }
+                    subtitle={t("practice.wordsCount", {
+                      count: category.wordCount,
+                    })}
+                    icon={
+                      <IconSymbol
+                        name={style.icon as never}
+                        size={22}
+                        color={style.color}
+                      />
+                    }
+                    onPress={() => handleCategory(category.id)}
+                    color={`${style.color}20`}
+                  />
+                );
+              })}
             </View>
           </View>
         </BottomSheetScrollView>
       </BottomSheet>
     </View>
   );
-}
-
-function getCategoryIcon(categoryId: string): string {
-  switch (categoryId) {
-    case "emotions":
-      return "heart.fill";
-    case "daily_life":
-      return "house.fill";
-    case "office":
-      return "briefcase.fill";
-    case "society":
-      return "person.3.fill";
-    default:
-      return "folder.fill";
-  }
-}
-
-function getCategoryColor(categoryId: string): string {
-  switch (categoryId) {
-    case "emotions":
-      return "#FCE4EC";
-    case "daily_life":
-      return "#E8F5E9";
-    case "office":
-      return "#E3F2FD";
-    case "society":
-      return "#FFF3E0";
-    default:
-      return "#F5F5F5";
-  }
 }
 
 const styles = StyleSheet.create({
