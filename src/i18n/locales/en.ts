@@ -95,12 +95,21 @@ export default {
     greatJob: "Great job!",
     keepPracticing: "Keep practicing!",
     perfectScore: "Perfect score!",
+    goodEffort: "Good effort!",
     playAgain: "Play Again",
     backToHome: "Back to Home",
     thatsCorrect: "That's correct!",
     thatsWrong: "That's wrong!",
     nextWord: "Next word",
     definition: "Definition",
+    keepItGoing: "Keep it going!",
+    practiceStreak: "{{count}} day of practice in the last {{days}} days",
+    retentionTip:
+      "Practicing at least 5 days a week allows you to retain 25% more words",
+    seeResults: "See results",
+    yourResults: "Your results",
+    resultsHint:
+      "Want to practice these words more? Add them to favorites or to your collections",
   },
   dictionary: {
     title: "Dictionary",

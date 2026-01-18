@@ -95,12 +95,21 @@ export default {
     greatJob: "Tuyệt vời!",
     keepPracticing: "Cố gắng thêm nhé!",
     perfectScore: "Điểm tuyệt đối!",
+    goodEffort: "Cố gắng tốt!",
     playAgain: "Chơi lại",
     backToHome: "Về trang chính",
     thatsCorrect: "Chính xác!",
     thatsWrong: "Sai rồi!",
     nextWord: "Từ tiếp theo",
     definition: "Định nghĩa",
+    keepItGoing: "Tiếp tục nhé!",
+    practiceStreak: "{{count}} ngày luyện tập trong {{days}} ngày qua",
+    retentionTip:
+      "Luyện tập ít nhất 5 ngày mỗi tuần giúp bạn nhớ thêm 25% từ vựng",
+    seeResults: "Xem kết quả",
+    yourResults: "Kết quả của bạn",
+    resultsHint:
+      "Muốn luyện tập thêm? Thêm vào yêu thích hoặc bộ sưu tập của bạn",
   },
   dictionary: {
     title: "Từ điển",

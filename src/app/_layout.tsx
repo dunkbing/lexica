@@ -115,6 +115,7 @@ export default function RootLayout() {
               <Stack.Screen name="practice/fill-gap" />
               <Stack.Screen name="practice/guess-word" />
               <Stack.Screen name="practice/synonyms" />
+              <Stack.Screen name="practice/shuffle" />
               <Stack.Screen
                 name="settings"
                 options={{
