@@ -265,10 +265,7 @@ export default function HomeScreen() {
 
         <View style={styles.progressSection}>
           {/* Category indicator */}
-          <TouchableOpacity
-            style={styles.categoryIndicator}
-            onPress={() => router.push("/categories")}
-          >
+          <View style={styles.categoryIndicator}>
             {selectedCategory && selectedCategoryStyle ? (
               <View style={styles.categoryBadge}>
                 <View
@@ -283,11 +280,6 @@ export default function HomeScreen() {
                 >
                   {selectedCategory.name_en}
                 </Text>
-                <IconSymbol
-                  name="chevron.down"
-                  size={12}
-                  color={textSecondary}
-                />
               </View>
             ) : (
               <View style={styles.categoryBadge}>
@@ -299,14 +291,9 @@ export default function HomeScreen() {
                 <Text style={[styles.categoryText, { color: textColor }]}>
                   {t("categories.allWords")}
                 </Text>
-                <IconSymbol
-                  name="chevron.down"
-                  size={12}
-                  color={textSecondary}
-                />
               </View>
             )}
-          </TouchableOpacity>
+          </View>
 
           <View style={styles.progressHeader}>
             <IconSymbol name="bookmark" size={18} color={textColor} />
@@ -318,6 +305,16 @@ export default function HomeScreen() {
             <ProgressBar progress={progress} height={4} />
           </View>
         </View>
+
+        <TouchableOpacity
+          style={[
+            styles.categoriesButton,
+            { backgroundColor: cardBackground, borderColor },
+          ]}
+          onPress={() => router.push("/categories")}
+        >
+          <IconSymbol name="square.grid.2x2" size={22} color={textColor} />
+        </TouchableOpacity>
       </View>
 
       {/* Card Container */}
@@ -376,6 +373,14 @@ const styles = StyleSheet.create({
     gap: Spacing.lg,
   },
   profileButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+  },
+  categoriesButton: {
     width: 48,
     height: 48,
     borderRadius: 24,

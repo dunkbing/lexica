@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { useRouter, usePathname } from "expo-router";
+import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -8,20 +8,22 @@ import { useTranslation } from "react-i18next";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useAppStore } from "@/store";
-import { BorderRadius, FontSizes, FontWeights, Spacing } from "@/constants/theme";
+import {
+  BorderRadius,
+  FontSizes,
+  FontWeights,
+  Spacing,
+} from "@/constants/theme";
 
 export function BottomNav() {
   const { t } = useTranslation();
   const router = useRouter();
-  const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const hapticsEnabled = useAppStore((s) => s.hapticsEnabled);
 
   const backgroundColor = useThemeColor({}, "background");
   const cardBackground = useThemeColor({}, "cardBackground");
   const textColor = useThemeColor({}, "text");
-  const textSecondary = useThemeColor({}, "textSecondary");
-  const primaryColor = useThemeColor({}, "primary");
   const borderColor = useThemeColor({}, "borderLight");
 
   const handlePress = (route: string) => {
@@ -30,8 +32,6 @@ export function BottomNav() {
     }
     router.push(route as any);
   };
-
-  const isHome = pathname === "/" || pathname === "/index";
 
   return (
     <View
@@ -44,18 +44,6 @@ export function BottomNav() {
       ]}
     >
       <View style={styles.nav}>
-        {/* Categories Button */}
-        <TouchableOpacity
-          style={[
-            styles.iconButton,
-            { backgroundColor: cardBackground, borderColor },
-          ]}
-          onPress={() => handlePress("/categories")}
-          activeOpacity={0.7}
-        >
-          <IconSymbol name="square.grid.2x2" size={24} color={textColor} />
-        </TouchableOpacity>
-
         {/* Practice Button */}
         <TouchableOpacity
           style={[
