@@ -1,10 +1,5 @@
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { debounce } from "lodash";
 import {
   StyleSheet,
   View,
@@ -48,30 +43,24 @@ export default function DictionaryScreen() {
 
   const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const isVietnamese = i18n.language === "vi";
 
-  // Debounce search query
-  useEffect(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-    debounceRef.current = setTimeout(() => {
-      setSearchQuery(inputValue);
-    }, DEBOUNCE_MS);
+  const debouncedSetSearchQuery = useMemo(
+    () => debounce((query: string) => setSearchQuery(query), DEBOUNCE_MS),
+    [],
+  );
 
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-    };
-  }, [inputValue]);
+  useEffect(() => {
+    debouncedSetSearchQuery(inputValue);
+    return () => debouncedSetSearchQuery.cancel();
+  }, [inputValue, debouncedSetSearchQuery]);
 
   const handleClearSearch = useCallback(() => {
+    debouncedSetSearchQuery.cancel();
     setInputValue("");
     setSearchQuery("");
-  }, []);
+  }, [debouncedSetSearchQuery]);
 
   const filteredWords = useMemo(() => {
     if (!searchQuery.trim()) {
