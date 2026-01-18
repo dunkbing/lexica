@@ -352,16 +352,17 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: Spacing.xl,
     borderRadius: BorderRadius.xl,
   },
   rightOverlay: {
-    alignItems: "flex-start",
-    paddingLeft: Spacing.xl,
-  },
-  leftOverlay: {
     alignItems: "flex-end",
     paddingRight: Spacing.xl,
+  },
+  leftOverlay: {
+    alignItems: "flex-start",
+    paddingLeft: Spacing.xl,
   },
   overlayBadge: {
     width: 60,

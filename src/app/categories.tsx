@@ -311,11 +311,13 @@ export default function CategoriesScreen() {
                         >
                           {getCategoryName(category)}
                         </Text>
-                        <Text
-                          style={[styles.wordCount, { color: textSecondary }]}
-                        >
-                          {category.wordCount} {t("categories.words")}
-                        </Text>
+                        {__DEV__ && (
+                          <Text
+                            style={[styles.wordCount, { color: textSecondary }]}
+                          >
+                            {category.wordCount} {t("categories.words")}
+                          </Text>
+                        )}
                       </TouchableOpacity>
                     );
                   })}
