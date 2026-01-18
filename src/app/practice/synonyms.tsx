@@ -25,17 +25,16 @@ import {
 import type { Word } from "@/types";
 
 const QUESTIONS_COUNT = 10;
-const OPTIONS_COUNT = 3;
+const OPTIONS_COUNT = 4;
 
 interface Question {
   word: Word;
-  sentence: string;
-  blankSentence: string;
+  correctSynonym: string;
   options: string[];
   correctIndex: number;
 }
 
-export default function FillGapScreen() {
+export default function SynonymsScreen() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -66,16 +65,14 @@ export default function FillGapScreen() {
   const isVietnamese = i18n.language === "vi";
 
   const generateQuestions = useCallback(() => {
-    if (words.length === 0) return;
-
-    // Filter words that have examples
-    const wordsWithExamples = words.filter(
-      (w) => w.examples && w.examples.length > 0,
+    // Filter words that have synonyms
+    const wordsWithSynonyms = words.filter(
+      (w) => w.synonyms && w.synonyms.length > 0,
     );
 
-    if (wordsWithExamples.length < OPTIONS_COUNT) return;
+    if (wordsWithSynonyms.length < OPTIONS_COUNT) return;
 
-    const shuffledWords = [...wordsWithExamples].sort(
+    const shuffledWords = [...wordsWithSynonyms].sort(
       () => Math.random() - 0.5,
     );
     const selectedWords = shuffledWords.slice(
@@ -83,30 +80,31 @@ export default function FillGapScreen() {
       Math.min(QUESTIONS_COUNT, shuffledWords.length),
     );
 
+    // Collect all synonyms for wrong options
+    const allSynonyms = wordsWithSynonyms.flatMap((w) => w.synonyms || []);
+
     const generatedQuestions: Question[] = selectedWords.map((word) => {
-      const example = word.examples[0];
-      const sentence = example.en;
+      // Pick a random synonym as the correct answer
+      const correctSynonym =
+        word.synonyms![Math.floor(Math.random() * word.synonyms!.length)];
 
-      // Create blank version - replace the word with underscores
-      const regex = new RegExp(`\\b${word.term}\\b`, "gi");
-      const blankSentence = sentence.replace(regex, "_____");
-
-      // Generate wrong options from other words
-      const otherWords = wordsWithExamples.filter((w) => w.id !== word.id);
-      const shuffledOthers = [...otherWords].sort(() => Math.random() - 0.5);
-      const wrongOptions = shuffledOthers
-        .slice(0, OPTIONS_COUNT - 1)
-        .map((w) => w.term);
+      // Get wrong options (synonyms from other words, excluding current word's synonyms)
+      const otherSynonyms = allSynonyms.filter(
+        (s) => !word.synonyms!.includes(s),
+      );
+      const shuffledOthers = [...new Set(otherSynonyms)].sort(
+        () => Math.random() - 0.5,
+      );
+      const wrongOptions = shuffledOthers.slice(0, OPTIONS_COUNT - 1);
 
       // Insert correct answer at random position
       const correctIndex = Math.floor(Math.random() * OPTIONS_COUNT);
       const options = [...wrongOptions];
-      options.splice(correctIndex, 0, word.term);
+      options.splice(correctIndex, 0, correctSynonym);
 
       return {
         word,
-        sentence,
-        blankSentence,
+        correctSynonym,
         options,
         correctIndex,
       };
@@ -331,6 +329,11 @@ export default function FillGapScreen() {
     );
   }
 
+  // Get definition in current language
+  const definition = isVietnamese
+    ? currentQuestion.word.definition.vi
+    : currentQuestion.word.definition.en;
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
       {/* Header */}
@@ -359,17 +362,20 @@ export default function FillGapScreen() {
       {/* Question */}
       <View style={styles.questionContainer}>
         <Text style={[styles.instruction, { color: textSecondary }]}>
-          {t("game.fillSentence")}
+          {t("game.findSynonym")}
         </Text>
 
         <View
           style={[
-            styles.sentenceCard,
+            styles.wordCard,
             { backgroundColor: cardBackground, borderColor },
           ]}
         >
-          <Text style={[styles.sentence, { color: textColor }]}>
-            {currentQuestion.blankSentence}
+          <Text style={[styles.word, { color: textColor }]}>
+            {currentQuestion.word.term}
+          </Text>
+          <Text style={[styles.phonetic, { color: textSecondary }]}>
+            {currentQuestion.word.phonetic}
           </Text>
         </View>
       </View>
@@ -464,11 +470,18 @@ export default function FillGapScreen() {
           <Text style={[styles.answerPhonetic, { color: textSecondary }]}>
             {currentQuestion.word.phonetic}
           </Text>
+
+          <View style={styles.synonymsRow}>
+            <Text style={[styles.synonymsLabel, { color: textSecondary }]}>
+              {t("word.synonyms")}:
+            </Text>
+            <Text style={[styles.synonymsList, { color: primaryColor }]}>
+              {currentQuestion.word.synonyms?.join(", ")}
+            </Text>
+          </View>
+
           <Text style={[styles.answerDefinition, { color: textSecondary }]}>
-            ({currentQuestion.word.pos}){" "}
-            {isVietnamese
-              ? currentQuestion.word.definition.vi
-              : currentQuestion.word.definition.en}
+            ({currentQuestion.word.pos}) {definition}
           </Text>
 
           <PrimaryButton
@@ -528,15 +541,20 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
     textAlign: "center",
   },
-  sentenceCard: {
+  wordCard: {
     padding: Spacing.xl,
     borderRadius: BorderRadius.lg,
     borderWidth: 1,
+    alignItems: "center",
   },
-  sentence: {
-    fontSize: FontSizes.lg,
-    lineHeight: 28,
-    textAlign: "center",
+  word: {
+    fontSize: FontSizes.display,
+    fontWeight: FontWeights.bold,
+    fontFamily: "Georgia",
+    marginBottom: Spacing.xs,
+  },
+  phonetic: {
+    fontSize: FontSizes.md,
   },
   optionsContainer: {
     paddingHorizontal: Spacing.xl,
@@ -575,7 +593,21 @@ const styles = StyleSheet.create({
   },
   answerPhonetic: {
     fontSize: FontSizes.sm,
+    marginBottom: Spacing.md,
+  },
+  synonymsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: Spacing.xs,
     marginBottom: Spacing.sm,
+  },
+  synonymsLabel: {
+    fontSize: FontSizes.sm,
+    fontWeight: FontWeights.medium,
+  },
+  synonymsList: {
+    fontSize: FontSizes.sm,
+    fontWeight: FontWeights.semibold,
   },
   answerDefinition: {
     fontSize: FontSizes.md,

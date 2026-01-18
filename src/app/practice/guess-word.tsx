@@ -25,17 +25,15 @@ import {
 import type { Word } from "@/types";
 
 const QUESTIONS_COUNT = 10;
-const OPTIONS_COUNT = 3;
+const OPTIONS_COUNT = 4;
 
 interface Question {
   word: Word;
-  sentence: string;
-  blankSentence: string;
   options: string[];
   correctIndex: number;
 }
 
-export default function FillGapScreen() {
+export default function GuessWordScreen() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -66,33 +64,17 @@ export default function FillGapScreen() {
   const isVietnamese = i18n.language === "vi";
 
   const generateQuestions = useCallback(() => {
-    if (words.length === 0) return;
+    if (words.length < OPTIONS_COUNT) return;
 
-    // Filter words that have examples
-    const wordsWithExamples = words.filter(
-      (w) => w.examples && w.examples.length > 0,
-    );
-
-    if (wordsWithExamples.length < OPTIONS_COUNT) return;
-
-    const shuffledWords = [...wordsWithExamples].sort(
-      () => Math.random() - 0.5,
-    );
+    const shuffledWords = [...words].sort(() => Math.random() - 0.5);
     const selectedWords = shuffledWords.slice(
       0,
       Math.min(QUESTIONS_COUNT, shuffledWords.length),
     );
 
     const generatedQuestions: Question[] = selectedWords.map((word) => {
-      const example = word.examples[0];
-      const sentence = example.en;
-
-      // Create blank version - replace the word with underscores
-      const regex = new RegExp(`\\b${word.term}\\b`, "gi");
-      const blankSentence = sentence.replace(regex, "_____");
-
-      // Generate wrong options from other words
-      const otherWords = wordsWithExamples.filter((w) => w.id !== word.id);
+      // Get wrong options from other words
+      const otherWords = words.filter((w) => w.id !== word.id);
       const shuffledOthers = [...otherWords].sort(() => Math.random() - 0.5);
       const wrongOptions = shuffledOthers
         .slice(0, OPTIONS_COUNT - 1)
@@ -105,8 +87,6 @@ export default function FillGapScreen() {
 
       return {
         word,
-        sentence,
-        blankSentence,
         options,
         correctIndex,
       };
@@ -331,6 +311,11 @@ export default function FillGapScreen() {
     );
   }
 
+  // Get definition in current language
+  const definition = isVietnamese
+    ? currentQuestion.word.definition.vi
+    : currentQuestion.word.definition.en;
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
       {/* Header */}
@@ -359,17 +344,20 @@ export default function FillGapScreen() {
       {/* Question */}
       <View style={styles.questionContainer}>
         <Text style={[styles.instruction, { color: textSecondary }]}>
-          {t("game.fillSentence")}
+          {t("game.whichWord")}
         </Text>
 
         <View
           style={[
-            styles.sentenceCard,
+            styles.definitionCard,
             { backgroundColor: cardBackground, borderColor },
           ]}
         >
-          <Text style={[styles.sentence, { color: textColor }]}>
-            {currentQuestion.blankSentence}
+          <Text style={[styles.posLabel, { color: primaryColor }]}>
+            ({currentQuestion.word.pos})
+          </Text>
+          <Text style={[styles.definition, { color: textColor }]}>
+            {definition}
           </Text>
         </View>
       </View>
@@ -465,10 +453,7 @@ export default function FillGapScreen() {
             {currentQuestion.word.phonetic}
           </Text>
           <Text style={[styles.answerDefinition, { color: textSecondary }]}>
-            ({currentQuestion.word.pos}){" "}
-            {isVietnamese
-              ? currentQuestion.word.definition.vi
-              : currentQuestion.word.definition.en}
+            ({currentQuestion.word.pos}) {definition}
           </Text>
 
           <PrimaryButton
@@ -528,12 +513,18 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
     textAlign: "center",
   },
-  sentenceCard: {
+  definitionCard: {
     padding: Spacing.xl,
     borderRadius: BorderRadius.lg,
     borderWidth: 1,
+    alignItems: "center",
   },
-  sentence: {
+  posLabel: {
+    fontSize: FontSizes.sm,
+    fontWeight: FontWeights.medium,
+    marginBottom: Spacing.sm,
+  },
+  definition: {
     fontSize: FontSizes.lg,
     lineHeight: 28,
     textAlign: "center",

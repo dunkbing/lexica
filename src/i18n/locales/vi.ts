@@ -95,6 +95,10 @@ export default {
     perfectScore: "Điểm tuyệt đối!",
     playAgain: "Chơi lại",
     backToHome: "Về trang chính",
+    thatsCorrect: "Chính xác!",
+    thatsWrong: "Sai rồi!",
+    nextWord: "Từ tiếp theo",
+    definition: "Định nghĩa",
   },
   categories: {
     title: "Chủ đề",
@@ -195,5 +199,7 @@ export default {
     whatMeans: "Nghĩa của từ này là gì?",
     matchWords: "Ghép từ với nghĩa",
     fillSentence: "Hoàn thành câu sau",
+    whichWord: "Từ nào phù hợp với định nghĩa này?",
+    findSynonym: "Tìm từ đồng nghĩa",
   },
 };

@@ -95,6 +95,10 @@ export default {
     perfectScore: "Perfect score!",
     playAgain: "Play Again",
     backToHome: "Back to Home",
+    thatsCorrect: "That's correct!",
+    thatsWrong: "That's wrong!",
+    nextWord: "Next word",
+    definition: "Definition",
   },
   categories: {
     title: "Categories",
@@ -195,5 +199,7 @@ export default {
     whatMeans: "What does this word mean?",
     matchWords: "Match words with meanings",
     fillSentence: "Complete the sentence",
+    whichWord: "Which word matches this definition?",
+    findSynonym: "Find the synonym",
   },
 };
