@@ -1,268 +1,136 @@
-# React Native Expo Boilerplate
+# English Vocabulary Learning App
 
-## Project Overview
+An English vocabulary app with swipeable flashcards, spaced repetition, and practice games. UI supports English and Vietnamese.
 
-A React Native boilerplate with Expo SDK 54, featuring i18n, theming, SQLite database, and modern navigation patterns.
+## Commands
 
-## Tech Stack
-
-- **Framework**: React Native with Expo (SDK 54)
-- **Router**: Expo Router (file-based routing)
-- **Database**: expo-sqlite
-- **State**: Zustand
-- **i18n**: i18next (English, Japanese, Vietnamese)
-- **Gestures**: react-native-gesture-handler + react-native-reanimated
-
-## Project Structure
-
-```
-app/
-├── app/                    # Expo Router screens
-│   ├── (tabs)/            # Tab navigation
-│   │   └── index.tsx      # Home screen
-│   ├── settings.tsx       # Settings modal screen
-│   └── _layout.tsx        # Root layout
-├── components/
-│   ├── ui/                # Button, Card, ProgressBar, etc.
-│   ├── navigation/        # Sidebar for tablets
-│   ├── themed-text.tsx    # Theme-aware text component
-│   └── themed-view.tsx    # Theme-aware view component
-├── constants/
-│   └── theme.ts           # Color theme definitions
-├── db/
-│   ├── database.ts        # Database initialization
-│   └── schema.ts          # User data schema
-├── hooks/
-│   ├── use-theme-color.ts # Theme color hook
-│   └── use-responsive.ts  # Responsive design hook
-├── i18n/
-│   ├── index.ts           # i18n setup
-│   └── locales/           # Translation files (en, ja, vi)
-├── lib/
-│   ├── notifications.ts   # Push notifications
-│   ├── purchases.ts       # In-app purchases (RevenueCat)
-│   └── store-review.ts    # App Store review requests
-├── store/
-│   ├── appStore.ts        # App settings store
-│   └── purchaseStore.ts   # Purchase state store
-└── types/                 # TypeScript types
+```bash
+bun install              # Install dependencies
+bun start                # Start dev server (i for iOS, a for Android)
+bun run tsc --noEmit     # Type check
+bun run lint             # Lint
 ```
 
 ## Code Style
 
-- **Never use `any` type** - Always use proper TypeScript types. Use `unknown` if the type is truly unknown, then narrow it with type guards.
-- Use kebab-case for file names.
-- Always use `bun` instead of node/npm. Use `bunx` instead of npx.
+- **Never use `any`** - Use proper types or `unknown` with type guards
+- **kebab-case** for file names
+- **Use `bun`** instead of npm/node, `bunx` instead of npx
 
-## Key Commands
+## App Architecture
 
-```bash
-# Install dependencies
-bun install
+### Screens
 
-# Start development server
-bun start
+| Screen | Path | Description |
+|--------|------|-------------|
+| Home | `app/index.tsx` | Swipeable word cards. Right = know, Left = review. Shows daily progress. |
+| Categories | `app/categories.tsx` | Browse 32 categories in 8 groups. Filter words by topic/level/test. |
+| Practice | `app/practice.tsx` | 4 games: Meaning Match, Fill Gap, Guess Word, Match Synonyms |
+| Stats | `app/stats.tsx` | Streak, weekly activity, mastered/learning/new word counts |
+| Profile | `app/profile.tsx` | Favorites, saved words, collections, settings shortcuts |
+| Word Detail | `app/word/[id].tsx` | Full word info with examples |
 
-# Run on iOS simulator
-bun ios
+### Data Model
 
-# Run on Android emulator
-bun android
+**Vocab Database** (`vocab_data.db` - bundled, read-only via Drizzle ORM):
 
-# Type check
-bun run tsc --noEmit
+```
+words
+├── id, term, phonetic
+├── pos (noun, verb, adj, adv, prep, conj, pron, interj)
+├── definition_en, definition_vi
+├── examples: [{en, vi}]  (JSON)
+├── synonyms, antonyms     (JSON, nullable)
+├── level (beginner, intermediate, advanced)
+└── category_id → categories.id
 
-# Lint
-bun run lint
+categories
+├── id, name_en, name_vi
+└── group_id → category_groups.id
+
+category_groups
+└── id, name_en, name_vi
 ```
 
-## Features
+**Category Groups**: About ourselves, By parts of speech, Culture, Lexicon, The world around us, By level, By test, By origin
+
+**User State** (Zustand + AsyncStorage, not SQLite):
+
+```typescript
+// useUserStore - Learning progress
+wordStates: Record<wordId, {
+  familiarityScore: 0-6,        // SRS level
+  lastSeenAt, nextReviewAt,     // Timestamps for spaced repetition
+  isFavorite, isSaved: boolean,
+  correctCount, incorrectCount,
+  collections: string[]
+}>
+stats: { totalRead, currentStreak, longestStreak, weeklyActivity, totalPractices }
+collections: Collection[]
+history: string[]               // Last 100 word IDs
+gameResults: GameResult[]       // Last 50 game results
+
+// useAppStore - Settings
+theme: "light" | "dark" | "system"
+language: "vi" | "en"
+dailyGoal: 3 | 5 | 7 | 10
+soundEnabled, hapticsEnabled, notificationsEnabled
+
+// useWordStore - Vocab data (in-memory)
+words, categories, categoryGroups
+todayWords: Word[]              // Current session (5-10 shuffled)
+selectedCategoryId: string | null
+```
+
+### Spaced Repetition (SRS)
+
+Familiarity levels 0-6 with intervals: `[1, 3, 7, 14, 30, 60, 120]` days
+- `recordCorrectAnswer()`: Increases score, schedules next review
+- `recordIncorrectAnswer()`: Decreases score, schedules review soon
+
+### Key Components
+
+- **WordCard** (`components/word-card.tsx`): Swipeable card with pan gestures. Shows term, phonetic, definition, POS. Actions: info, share, favorite, save.
+- **Bottom Sheet Modals**: Categories/Practice/Stats/Profile use `@gorhom/bottom-sheet` at 95% height with collapsing header animation.
+
+### Data Flow
+
+```
+App Init (_layout.tsx)
+  → initVocabDatabase() (import bundled vocab_data.db)
+  → initUserDatabase() (create app_user.db)
+  → wordStore.loadWords() via repositories
+  → Screens access via useWordStore/useUserStore
+
+Swipe Interaction
+  → onSwipeRight/Left
+  → userStore.recordCorrectAnswer/recordIncorrectAnswer
+  → Updates familiarityScore, nextReviewAt
+  → Persisted to AsyncStorage
+```
+
+### Database Access
+
+```typescript
+// Repositories in db/repositories/
+const words = await wordRepository.getWordsByCategory(categoryId);
+const categories = await categoryRepository.getCategoriesGrouped(); // Map<Group, Category[]>
+await wordRepository.searchWords(term);
+```
+
+### i18n
+
+UI in English or Vietnamese. Translations in `i18n/locales/{en,vi}.ts`.
+```typescript
+const { t } = useTranslation();
+t("common.save")  // or t("home.swipeHint")
+```
+
+Word content is bilingual: `definition_en`, `definition_vi`, `examples[].en`, `examples[].vi`
 
 ### Theming
 
-Light/dark mode with system detection:
-
 ```typescript
-import { useThemeColor } from "@/hooks/use-theme-color";
-
-const backgroundColor = useThemeColor({}, "background");
-const tintColor = useThemeColor({}, "tint");
+const bg = useThemeColor({}, "background");
 ```
-
-Theme colors are defined in `constants/theme.ts`.
-
-### Internationalization (i18n)
-
-Multi-language support with i18next:
-
-```typescript
-import { useTranslation } from "react-i18next";
-
-const { t } = useTranslation();
-// Usage: t("common.save")
-```
-
-Translation files are in `i18n/locales/{en,ja,vi}.ts`.
-
-### Database
-
-SQLite database with expo-sqlite:
-
-```typescript
-import { initUserDatabase, getUserDatabase } from "@/db/database";
-
-// Initialize database
-await initUserDatabase();
-
-// Get database instance
-const db = await getUserDatabase();
-
-// Run queries
-const result = await db.getAllAsync<YourType>("SELECT * FROM your_table");
-```
-
-### State Management
-
-Zustand store with persistence:
-
-```typescript
-import { useAppStore } from "@/store";
-
-const { theme, setTheme } = useAppStore();
-```
-
-### Responsive Design
-
-Phone/tablet responsive layout:
-
-```typescript
-import { useResponsive } from "@/hooks/use-responsive";
-
-const { isTablet, contentPadding, sidebarWidth } = useResponsive();
-```
-
-### Navigation
-
-Expo Router file-based navigation with custom bottom nav and bottom sheet modals.
-
-### Bottom Sheet Pattern
-
-Secondary screens (Categories, Practice, Stats, Profile) use `@gorhom/bottom-sheet` for a native sheet experience.
-
-**Key characteristics:**
-- Fixed height at 95% of screen
-- Pan down to close gesture enabled
-- Collapsible header with animated title transition
-- Close button (X) in top-left corner
-
-**Title animation behavior:**
-- Large title (32px, bold, left-aligned) visible at the top when not scrolled
-- When scrolling past 50px, large title fades out
-- Small title (FontSizes.lg, centered) fades in at the header
-- Uses `react-native-reanimated` for smooth opacity interpolation
-
-**Implementation pattern:**
-```typescript
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  interpolate,
-  Extrapolation,
-} from "react-native-reanimated";
-
-const SCROLL_THRESHOLD = 50;
-
-export default function SheetScreen() {
-  const scrollY = useSharedValue(0);
-  const snapPoints = useMemo(() => ["95%"], []);
-
-  const largeTitleStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      scrollY.value,
-      [0, SCROLL_THRESHOLD],
-      [1, 0],
-      Extrapolation.CLAMP
-    ),
-  }));
-
-  const smallTitleStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      scrollY.value,
-      [SCROLL_THRESHOLD - 20, SCROLL_THRESHOLD],
-      [0, 1],
-      Extrapolation.CLAMP
-    ),
-  }));
-
-  return (
-    <View style={styles.container}>
-      <BottomSheet
-        index={0}
-        snapPoints={snapPoints}
-        enablePanDownToClose
-        enableDynamicSizing={false}
-        onClose={() => router.back()}
-        backgroundStyle={{ backgroundColor }}
-        handleIndicatorStyle={{ backgroundColor: textSecondary }}
-      >
-        {/* Fixed header with close button and animated small title */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()}>
-            <IconSymbol name="xmark" size={16} />
-          </TouchableOpacity>
-          <Animated.Text style={[styles.smallTitle, smallTitleStyle]}>
-            Title
-          </Animated.Text>
-          <View style={styles.headerSpacer} />
-        </View>
-
-        <BottomSheetScrollView
-          onScroll={(e) => {
-            scrollY.value = e.nativeEvent.contentOffset.y;
-          }}
-          scrollEventThrottle={16}
-        >
-          {/* Large title that fades out on scroll */}
-          <Animated.Text style={[styles.largeTitle, largeTitleStyle]}>
-            Title
-          </Animated.Text>
-          {/* Content */}
-        </BottomSheetScrollView>
-      </BottomSheet>
-    </View>
-  );
-}
-```
-
-**Route configuration in _layout.tsx:**
-```typescript
-<Stack.Screen
-  name="categories"
-  options={{
-    presentation: "transparentModal",
-    animation: "slide_from_bottom",
-  }}
-/>
-```
-
-## Environment
-
-- Bun
-- iOS Simulator or Android Emulator
-- Expo Go app for physical device testing
-
-## Getting Started
-
-1. Clone this repository
-2. Run `bun install`
-3. Run `bun start`
-4. Press `i` for iOS or `a` for Android
-
-## Customization
-
-1. Update `app.json` with your app name, slug, and identifiers
-2. Replace icons and splash screen in `assets/images/`
-3. Update translations in `i18n/locales/`
-4. Modify theme colors in `constants/theme.ts`
-5. Add your own screens in `app/` directory
+Colors in `constants/theme.ts`: primary, background, text, success, error, wordCardBg, etc.
