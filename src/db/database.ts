@@ -3,14 +3,12 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { USER_DATA_SCHEMA } from "./schema";
 import * as vocabSchema from "./drizzle/schema";
 
-// Database singletons
 let userDb: SQLite.SQLiteDatabase | null = null;
 let vocabDb: SQLite.SQLiteDatabase | null = null;
 
 const USER_DATA_DB_NAME = "app_user.db";
 const VOCAB_DATA_DB_NAME = "vocab_data.db";
 
-// Initialize user database
 export const initUserDatabase = async (): Promise<SQLite.SQLiteDatabase> => {
   if (userDb) {
     return userDb;
@@ -18,30 +16,25 @@ export const initUserDatabase = async (): Promise<SQLite.SQLiteDatabase> => {
 
   userDb = await SQLite.openDatabaseAsync(USER_DATA_DB_NAME);
 
-  // Enable foreign keys
   await userDb.execAsync("PRAGMA foreign_keys = ON;");
-
-  // Create tables
   await userDb.execAsync(USER_DATA_SCHEMA);
 
   return userDb;
 };
 
-// Initialize vocab database from bundled asset
 export const initVocabDatabase = async (): Promise<SQLite.SQLiteDatabase> => {
   if (vocabDb) {
     return vocabDb;
   }
 
   // Delete existing database to ensure fresh import from asset
-  try {
-    await SQLite.deleteDatabaseAsync(VOCAB_DATA_DB_NAME);
-    console.log("db_deleted");
-  } catch {
-    // Database might not exist, that's ok
+  if (__DEV__) {
+    try {
+      await SQLite.deleteDatabaseAsync(VOCAB_DATA_DB_NAME);
+      console.log("db_deleted");
+    } catch {}
   }
 
-  // Import the bundled database from assets
   await SQLite.importDatabaseFromAssetAsync(VOCAB_DATA_DB_NAME, {
     assetId: require("@/assets/data/vocab_data.db"),
   });

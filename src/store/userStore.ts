@@ -59,7 +59,6 @@ interface UserState {
   getWordState: (wordId: string) => UserWordState;
   markWordSeen: (wordId: string) => void;
   toggleFavorite: (wordId: string) => void;
-  toggleSaved: (wordId: string) => void;
   recordCorrectAnswer: (wordId: string) => void;
   recordIncorrectAnswer: (wordId: string) => void;
   swipeRight: (wordId: string) => void; // Know the word
@@ -161,28 +160,6 @@ export const useUserStore = create<UserState>()(
             totalFavorited: newIsFavorite
               ? stats.totalFavorited + 1
               : Math.max(0, stats.totalFavorited - 1),
-          },
-        }));
-      },
-
-      toggleSaved: (wordId) => {
-        const currentState = get().getWordState(wordId);
-        const newIsSaved = !currentState.isSaved;
-        const { stats } = get();
-
-        set((state) => ({
-          wordStates: {
-            ...state.wordStates,
-            [wordId]: {
-              ...currentState,
-              isSaved: newIsSaved,
-            },
-          },
-          stats: {
-            ...stats,
-            totalSaved: newIsSaved
-              ? stats.totalSaved + 1
-              : Math.max(0, stats.totalSaved - 1),
           },
         }));
       },

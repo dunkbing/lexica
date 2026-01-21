@@ -47,7 +47,6 @@ export default function WordDetailScreen() {
   const word = useWordStore((s) => s.getWordById(id || ""));
   const getWordState = useUserStore((s) => s.getWordState);
   const toggleFavorite = useUserStore((s) => s.toggleFavorite);
-  const toggleSaved = useUserStore((s) => s.toggleSaved);
 
   const wordState = word ? getWordState(word.id) : null;
 
@@ -67,12 +66,6 @@ export default function WordDetailScreen() {
       toggleFavorite(word.id);
     }
   }, [word, toggleFavorite]);
-
-  const handleSave = useCallback(() => {
-    if (word) {
-      toggleSaved(word.id);
-    }
-  }, [word, toggleSaved]);
 
   if (!word) {
     return (
@@ -117,17 +110,6 @@ export default function WordDetailScreen() {
               />
             }
             onPress={handleFavorite}
-            variant="outlined"
-          />
-          <IconButton
-            icon={
-              <IconSymbol
-                name={wordState?.isSaved ? "bookmark.fill" : "bookmark"}
-                size={22}
-                color={wordState?.isSaved ? primaryColor : textSecondary}
-              />
-            }
-            onPress={handleSave}
             variant="outlined"
           />
         </View>

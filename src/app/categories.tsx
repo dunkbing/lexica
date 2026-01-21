@@ -27,6 +27,7 @@ import {
   Spacing,
 } from "@/constants/theme";
 import { getCategoryStyle } from "@/constants/category-styles";
+import { FAVORITES_LIST_ID } from "@/constants/word-lists";
 import type { Category, CategoryGroup } from "@/types";
 
 export default function CategoriesScreen() {
@@ -98,6 +99,11 @@ export default function CategoriesScreen() {
     router.back();
   }, [setSelectedCategory, router]);
 
+  const handleFavoritesSelect = useCallback(() => {
+    setSelectedCategory(FAVORITES_LIST_ID);
+    router.back();
+  }, [setSelectedCategory, router]);
+
   const largeTitleStyle = useAnimatedStyle(() => {
     return {
       opacity: interpolate(
@@ -129,11 +135,11 @@ export default function CategoriesScreen() {
       onPress: handleAllWordsSelect,
     },
     {
-      id: "favorites",
+      id: FAVORITES_LIST_ID,
       title: t("categories.favorites"),
       icon: "heart.fill",
       count: favoriteCount,
-      onPress: () => router.push("/lists/favorites" as never),
+      onPress: handleFavoritesSelect,
     },
     {
       id: "own",
@@ -239,34 +245,40 @@ export default function CategoriesScreen() {
 
           {/* Quick Links Grid */}
           <View style={styles.quickLinksGrid}>
-            {quickLinks.map((link) => (
-              <TouchableOpacity
-                key={link.id}
-                style={[
-                  styles.quickLinkItem,
-                  { backgroundColor: cardBackground },
-                  link.id === "all" &&
-                    selectedCategoryId === null && {
+            {quickLinks.map((link) => {
+              const isQuickLinkSelected =
+                (link.id === "all" && selectedCategoryId === null) ||
+                (link.id === FAVORITES_LIST_ID &&
+                  selectedCategoryId === FAVORITES_LIST_ID);
+
+              return (
+                <TouchableOpacity
+                  key={link.id}
+                  style={[
+                    styles.quickLinkItem,
+                    { backgroundColor: cardBackground },
+                    isQuickLinkSelected && {
                       borderWidth: 2,
                       borderColor: primaryColor,
                     },
-                ]}
-                onPress={link.onPress}
-                activeOpacity={0.7}
-              >
-                <IconSymbol
-                  name={link.icon as never}
-                  size={28}
-                  color={primaryColor}
-                />
-                <Text
-                  style={[styles.quickLinkText, { color: textColor }]}
-                  numberOfLines={2}
+                  ]}
+                  onPress={link.onPress}
+                  activeOpacity={0.7}
                 >
-                  {link.title}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <IconSymbol
+                    name={link.icon as never}
+                    size={28}
+                    color={primaryColor}
+                  />
+                  <Text
+                    style={[styles.quickLinkText, { color: textColor }]}
+                    numberOfLines={2}
+                  >
+                    {link.title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
 
           {/* Category Groups */}

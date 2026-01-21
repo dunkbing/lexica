@@ -82,7 +82,7 @@ export function Sidebar({ width }: SidebarProps) {
       <View style={[styles.header, isCollapsed && styles.headerCollapsed]}>
         {!isCollapsed && (
           <ThemedText type="title" style={styles.appTitle}>
-            MyApp
+            Lexica
           </ThemedText>
         )}
         <TouchableOpacity

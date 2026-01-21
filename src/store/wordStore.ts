@@ -2,6 +2,8 @@ import { create } from "zustand";
 import type { Word, Category, CategoryGroup } from "@/types";
 import * as wordRepository from "@/db/repositories/word-repository";
 import * as categoryRepository from "@/db/repositories/category-repository";
+import { useUserStore } from "@/store/userStore";
+import { FAVORITES_LIST_ID } from "@/constants/word-lists";
 
 interface WordState {
   words: Word[];
@@ -23,6 +25,27 @@ interface WordState {
   getWordsByCategory: (categoryId: string) => Word[];
   getRandomWords: (count: number, excludeIds?: string[]) => Word[];
 }
+
+const getFilteredWords = (
+  words: Word[],
+  selectedCategoryId: string | null,
+): Word[] => {
+  if (!selectedCategoryId) {
+    return words;
+  }
+
+  if (selectedCategoryId === FAVORITES_LIST_ID) {
+    const favoriteIds = useUserStore.getState().getFavoriteWordIds();
+    if (favoriteIds.length === 0) {
+      return [];
+    }
+
+    const favoriteIdSet = new Set(favoriteIds);
+    return words.filter((word) => favoriteIdSet.has(word.id));
+  }
+
+  return words.filter((word) => word.categoryIds.includes(selectedCategoryId));
+};
 
 export const useWordStore = create<WordState>((set, get) => ({
   words: [],
@@ -47,9 +70,7 @@ export const useWordStore = create<WordState>((set, get) => ({
       const { selectedCategoryId } = get();
 
       // Filter words by selected category if any
-      const filteredWords = selectedCategoryId
-        ? words.filter((w) => w.categoryIds.includes(selectedCategoryId))
-        : words;
+      const filteredWords = getFilteredWords(words, selectedCategoryId);
 
       // Shuffle and pick words for today
       const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);
@@ -93,9 +114,7 @@ export const useWordStore = create<WordState>((set, get) => ({
     const { words, selectedCategoryId } = get();
 
     // Filter words by selected category if any
-    const filteredWords = selectedCategoryId
-      ? words.filter((w) => w.categoryIds.includes(selectedCategoryId))
-      : words;
+    const filteredWords = getFilteredWords(words, selectedCategoryId);
 
     const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);
     set({
@@ -108,9 +127,7 @@ export const useWordStore = create<WordState>((set, get) => ({
     const { words } = get();
 
     // Filter words by selected category if any
-    const filteredWords = categoryId
-      ? words.filter((w) => w.categoryIds.includes(categoryId))
-      : words;
+    const filteredWords = getFilteredWords(words, categoryId);
 
     // Shuffle and pick words
     const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);

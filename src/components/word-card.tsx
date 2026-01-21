@@ -43,7 +43,6 @@ interface WordCardProps {
   onSwipeLeft: () => void; // Need to review
   onInfoPress: () => void;
   onFavoritePress: () => void;
-  onSavePress: () => void;
   onSharePress: () => void;
   isFavorite: boolean;
   isSaved: boolean;
@@ -56,7 +55,6 @@ export function WordCard({
   onSwipeLeft,
   onInfoPress,
   onFavoritePress,
-  onSavePress,
   onSharePress,
   isFavorite,
   isSaved,
@@ -69,7 +67,6 @@ export function WordCard({
   const backgroundColor = useThemeColor({}, "wordCardBg");
   const textColor = useThemeColor({}, "text");
   const textSecondary = useThemeColor({}, "textSecondary");
-  const primaryColor = useThemeColor({}, "primary");
   const successColor = useThemeColor({}, "success");
   const warningColor = useThemeColor({}, "warning");
   const borderColor = useThemeColor({}, "border");
@@ -318,18 +315,6 @@ export function WordCard({
             onPress={onFavoritePress}
             variant="outlined"
             hapticType={isFavorite ? "light" : "success"}
-          />
-          <IconButton
-            icon={
-              <IconSymbol
-                name={isSaved ? "bookmark.fill" : "bookmark"}
-                size={24}
-                color={isSaved ? primaryColor : textSecondary}
-              />
-            }
-            onPress={onSavePress}
-            variant="outlined"
-            hapticType={isSaved ? "light" : "success"}
           />
         </View>
       </Animated.View>

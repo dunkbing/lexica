@@ -24,6 +24,7 @@ import {
   Spacing,
 } from "@/constants/theme";
 import { getCategoryStyle } from "@/constants/category-styles";
+import { FAVORITES_LIST_ID } from "@/constants/word-lists";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -49,7 +50,6 @@ export default function HomeScreen() {
   const {
     getWordState,
     toggleFavorite,
-    toggleSaved,
     swipeRight,
     swipeLeft,
     markWordSeen,
@@ -90,12 +90,14 @@ export default function HomeScreen() {
   const wordState = currentWord ? getWordState(currentWord.id) : null;
   const progress =
     todayWords.length > 0 ? (currentWordIndex + 1) / todayWords.length : 0;
+  const isFavoritesSelected = selectedCategoryId === FAVORITES_LIST_ID;
   const selectedCategory = selectedCategoryId
     ? categories.find((c) => c.id === selectedCategoryId)
     : null;
-  const selectedCategoryStyle = selectedCategoryId
-    ? getCategoryStyle(selectedCategoryId)
-    : null;
+  const selectedCategoryStyle =
+    selectedCategory && !isFavoritesSelected && selectedCategoryId
+      ? getCategoryStyle(selectedCategoryId)
+      : null;
 
   const handleSwipeRight = useCallback(() => {
     if (currentWord) {
@@ -148,12 +150,6 @@ export default function HomeScreen() {
       toggleFavorite(currentWord.id);
     }
   }, [currentWord, toggleFavorite]);
-
-  const handleSavePress = useCallback(() => {
-    if (currentWord) {
-      toggleSaved(currentWord.id);
-    }
-  }, [currentWord, toggleSaved]);
 
   const handleSharePress = useCallback(() => {
     // TODO: Implement share functionality
@@ -263,7 +259,14 @@ export default function HomeScreen() {
         <View style={styles.progressSection}>
           {/* Category indicator */}
           <View style={styles.categoryIndicator}>
-            {selectedCategory && selectedCategoryStyle ? (
+            {isFavoritesSelected ? (
+              <View style={styles.categoryBadge}>
+                <IconSymbol name="heart.fill" size={14} color={primaryColor} />
+                <Text style={[styles.categoryText, { color: textColor }]}>
+                  {t("categories.favorites")}
+                </Text>
+              </View>
+            ) : selectedCategory && selectedCategoryStyle ? (
               <View style={styles.categoryBadge}>
                 <View
                   style={[
@@ -343,7 +346,6 @@ export default function HomeScreen() {
             onSwipeLeft={handleSwipeLeft}
             onInfoPress={handleInfoPress}
             onFavoritePress={handleFavoritePress}
-            onSavePress={handleSavePress}
             onSharePress={handleSharePress}
             isFavorite={wordState?.isFavorite ?? false}
             isSaved={wordState?.isSaved ?? false}
