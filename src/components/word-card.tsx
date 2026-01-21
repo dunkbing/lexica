@@ -45,7 +45,6 @@ interface WordCardProps {
   onFavoritePress: () => void;
   onSharePress: () => void;
   isFavorite: boolean;
-  isSaved: boolean;
   onSwipeProgress?: (progress: number) => void; // 0 = center, 1 = threshold reached
 }
 
@@ -57,7 +56,6 @@ export function WordCard({
   onFavoritePress,
   onSharePress,
   isFavorite,
-  isSaved,
   onSwipeProgress,
 }: WordCardProps) {
   const { t, i18n } = useTranslation();

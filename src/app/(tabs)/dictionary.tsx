@@ -125,9 +125,7 @@ export default function DictionaryScreen() {
             {wordState?.isFavorite && (
               <IconSymbol name="heart.fill" size={16} color={primaryColor} />
             )}
-            {wordState?.isSaved && (
-              <IconSymbol name="bookmark.fill" size={16} color={primaryColor} />
-            )}
+
             <IconSymbol name="chevron.right" size={16} color={textSecondary} />
           </View>
         </TouchableOpacity>

@@ -28,7 +28,6 @@ export interface UserWordState {
   lastSeenAt: number | null; // timestamp
   nextReviewAt: number | null; // timestamp
   isFavorite: boolean;
-  isSaved: boolean;
   collections: string[];
   correctCount: number;
   incorrectCount: number;

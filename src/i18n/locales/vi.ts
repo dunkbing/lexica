@@ -136,11 +136,8 @@ export default {
   },
   profile: {
     title: "Hồ sơ",
-    greeting: "Xin chào!",
-    keepLearning: "Tiếp tục học mỗi ngày nhé",
     yourWords: "Từ của bạn",
     favorites: "Yêu thích",
-    savedWords: "Từ đã lưu",
     collections: "Bộ sưu tập",
     history: "Lịch sử",
     recentlyViewed: "Xem gần đây",

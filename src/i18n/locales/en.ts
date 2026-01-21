@@ -136,11 +136,8 @@ export default {
   },
   profile: {
     title: "Profile",
-    greeting: "Hello!",
-    keepLearning: "Keep learning every day",
     yourWords: "Your Words",
     favorites: "Favorites",
-    savedWords: "Saved Words",
     collections: "Collections",
     history: "History",
     recentlyViewed: "Recently viewed",

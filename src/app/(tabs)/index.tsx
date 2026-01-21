@@ -331,10 +331,8 @@ export default function HomeScreen() {
               onSwipeLeft={() => {}}
               onInfoPress={() => {}}
               onFavoritePress={() => {}}
-              onSavePress={() => {}}
               onSharePress={() => {}}
               isFavorite={false}
-              isSaved={false}
             />
           </Animated.View>
         )}
@@ -348,7 +346,6 @@ export default function HomeScreen() {
             onFavoritePress={handleFavoritePress}
             onSharePress={handleSharePress}
             isFavorite={wordState?.isFavorite ?? false}
-            isSaved={wordState?.isSaved ?? false}
             onSwipeProgress={handleSwipeProgress}
           />
         </View>

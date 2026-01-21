@@ -1,10 +1,5 @@
 import React, { useMemo, useCallback, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
@@ -20,11 +15,7 @@ import { StatTile } from "@/components/ui/stat-tile";
 import { CategoryRow } from "@/components/ui/category-row";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useUserStore } from "@/store/userStore";
-import {
-  FontSizes,
-  FontWeights,
-  Spacing,
-} from "@/constants/theme";
+import { FontSizes, FontWeights, Spacing } from "@/constants/theme";
 
 const SCROLL_THRESHOLD = 50;
 
@@ -56,7 +47,7 @@ export default function ProfileScreen() {
         scrollY.value,
         [0, SCROLL_THRESHOLD],
         [1, 0],
-        Extrapolation.CLAMP
+        Extrapolation.CLAMP,
       ),
     };
   });
@@ -67,16 +58,15 @@ export default function ProfileScreen() {
         scrollY.value,
         [SCROLL_THRESHOLD - 20, SCROLL_THRESHOLD],
         [0, 1],
-        Extrapolation.CLAMP
+        Extrapolation.CLAMP,
       ),
     };
   });
 
-  const { favoriteCount, savedCount } = useMemo(() => {
+  const { favoriteCount } = useMemo(() => {
     const states = Object.values(wordStates);
     return {
       favoriteCount: states.filter((ws) => ws.isFavorite).length,
-      savedCount: states.filter((ws) => ws.isSaved).length,
     };
   }, [wordStates]);
 
@@ -88,14 +78,6 @@ export default function ProfileScreen() {
       icon: "heart.fill",
       color: "#FCE4EC",
       route: "/lists/favorites",
-    },
-    {
-      id: "saved",
-      title: t("profile.savedWords"),
-      subtitle: t("profile.itemCount", { count: savedCount }),
-      icon: "bookmark.fill",
-      color: "#E3F2FD",
-      route: "/lists/saved",
     },
     {
       id: "collections",
@@ -185,24 +167,6 @@ export default function ProfileScreen() {
             {t("profile.title")}
           </Animated.Text>
 
-          {/* Profile Header */}
-          <View style={styles.profileHeader}>
-            <View
-              style={[
-                styles.avatar,
-                { backgroundColor: `${primaryColor}20` },
-              ]}
-            >
-              <IconSymbol name="person.fill" size={40} color={primaryColor} />
-            </View>
-            <Text style={[styles.greeting, { color: textColor }]}>
-              {t("profile.greeting")}
-            </Text>
-            <Text style={[styles.subtitle, { color: textSecondary }]}>
-              {t("profile.keepLearning")}
-            </Text>
-          </View>
-
           {/* Stats */}
           <View style={styles.statsRow}>
             <StatTile
@@ -214,7 +178,9 @@ export default function ProfileScreen() {
             <StatTile
               value={stats.totalRead}
               label={t("stats.wordsLearned")}
-              icon={<IconSymbol name="book.fill" size={24} color={primaryColor} />}
+              icon={
+                <IconSymbol name="book.fill" size={24} color={primaryColor} />
+              }
               style={styles.statTile}
             />
           </View>
@@ -310,10 +276,6 @@ const styles = StyleSheet.create({
     fontWeight: FontWeights.bold,
     marginBottom: Spacing.lg,
   },
-  profileHeader: {
-    alignItems: "center",
-    marginBottom: Spacing.xl,
-  },
   avatar: {
     width: 80,
     height: 80,
@@ -321,11 +283,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: Spacing.md,
-  },
-  greeting: {
-    fontSize: FontSizes.xl,
-    fontWeight: FontWeights.bold,
-    marginBottom: Spacing.xs,
   },
   subtitle: {
     fontSize: FontSizes.md,

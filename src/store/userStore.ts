@@ -69,7 +69,6 @@ interface UserState {
   deleteCollection: (collectionId: string) => void;
   getWordsToReview: () => string[];
   getFavoriteWordIds: () => string[];
-  getSavedWordIds: () => string[];
   addGameResult: (result: GameResult) => void;
   incrementPracticeCount: () => void;
   updateStreak: () => void;
@@ -81,7 +80,6 @@ const defaultWordState = (wordId: string): UserWordState => ({
   lastSeenAt: null,
   nextReviewAt: null,
   isFavorite: false,
-  isSaved: false,
   collections: [],
   correctCount: 0,
   incorrectCount: 0,
@@ -300,13 +298,6 @@ export const useUserStore = create<UserState>()(
         const { wordStates } = get();
         return Object.values(wordStates)
           .filter((ws) => ws.isFavorite)
-          .map((ws) => ws.wordId);
-      },
-
-      getSavedWordIds: () => {
-        const { wordStates } = get();
-        return Object.values(wordStates)
-          .filter((ws) => ws.isSaved)
           .map((ws) => ws.wordId);
       },
 
