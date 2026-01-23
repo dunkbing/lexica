@@ -1,0 +1,185 @@
+{
+  "description": "Maps word list files to app categories",
+  "mappings": [
+    {
+      "category": "emotions",
+      "files": ["emotions.txt", "character.txt"],
+      "description": "Feelings and personality traits"
+    },
+    {
+      "category": "food",
+      "files": ["food.txt", "fruit.txt", "meat.txt"],
+      "description": "Food, drinks, and cooking"
+    },
+    {
+      "category": "travel",
+      "files": ["travel.txt", "geography.txt"],
+      "description": "Travel, places, and geography"
+    },
+    {
+      "category": "flora_fauna",
+      "files": ["birds.txt", "fish.txt", "cats.txt", "dogs.txt"],
+      "description": "Animals and nature"
+    },
+    {
+      "category": "technology",
+      "files": ["software.txt", "automobiles.txt", "technology_extra.txt"],
+      "description": "Technology and vehicles"
+    },
+    {
+      "category": "business",
+      "files": ["corporate.txt"],
+      "description": "Business and work"
+    },
+    {
+      "category": "daily_life",
+      "files": ["furniture.txt", "houses.txt", "containers.txt"],
+      "description": "Home and everyday objects"
+    },
+    {
+      "category": "science",
+      "files": ["astronomy.txt", "chemistry.txt", "science_extra.txt"],
+      "description": "Science topics"
+    },
+    {
+      "category": "music",
+      "files": ["music_instruments.txt", "music_extra.txt"],
+      "description": "Music and instruments"
+    },
+    {
+      "category": "history",
+      "files": ["history.txt", "buildings.txt"],
+      "description": "History and architecture"
+    },
+    {
+      "category": "verbs",
+      "files": ["verbs_movement.txt", "verbs_communication.txt", "verbs_thought.txt"],
+      "description": "Action words"
+    },
+    {
+      "category": "adjectives",
+      "files": ["appearance.txt", "colors.txt", "size.txt", "temperature.txt", "weather.txt"],
+      "description": "Descriptive words"
+    },
+    {
+      "category": "advanced",
+      "files": ["advanced.txt"],
+      "description": "Sophisticated, advanced English vocabulary (C1-C2 level)"
+    },
+    {
+      "category": "art",
+      "files": ["art.txt", "art_extra.txt"],
+      "description": "Visual arts, painting, sculpture, artistic techniques"
+    },
+    {
+      "category": "beautiful_words",
+      "files": ["beautiful_words.txt"],
+      "description": "Elegant, poetic, and aesthetically pleasing words"
+    },
+    {
+      "category": "beginner",
+      "files": ["beginner.txt"],
+      "description": "Basic, everyday English words for beginners (A1-A2)"
+    },
+    {
+      "category": "environment",
+      "files": ["environment.txt", "environment_extra.txt"],
+      "description": "Ecology, climate, nature, sustainability"
+    },
+    {
+      "category": "expressions",
+      "files": ["expressions.txt"],
+      "description": "Common English idioms, phrases, and expressions"
+    },
+    {
+      "category": "french_root",
+      "files": ["french_root.txt"],
+      "description": "English words with French origins"
+    },
+    {
+      "category": "germanic_root",
+      "files": ["germanic_root.txt"],
+      "description": "English words with Germanic/Old English origins"
+    },
+    {
+      "category": "greek_root",
+      "files": ["greek_root.txt"],
+      "description": "English words with Greek origins"
+    },
+    {
+      "category": "latin_root",
+      "files": ["latin_root.txt"],
+      "description": "English words with Latin origins"
+    },
+    {
+      "category": "gre",
+      "files": ["gre.txt"],
+      "description": "Advanced vocabulary for GRE exam"
+    },
+    {
+      "category": "sat",
+      "files": ["sat.txt"],
+      "description": "Vocabulary for SAT exam"
+    },
+    {
+      "category": "ielts",
+      "files": ["ielts.txt", "ielts_extra.txt"],
+      "description": "Vocabulary for IELTS test"
+    },
+    {
+      "category": "toefl",
+      "files": ["toefl.txt", "toefl_extra.txt"],
+      "description": "Vocabulary for TOEFL test"
+    },
+    {
+      "category": "human_body",
+      "files": ["human_body.txt"],
+      "description": "Anatomy, body parts, organs"
+    },
+    {
+      "category": "intermediate",
+      "files": ["intermediate.txt"],
+      "description": "Intermediate level vocabulary (B1-B2)"
+    },
+    {
+      "category": "legal",
+      "files": ["legal.txt", "legal_extra.txt"],
+      "description": "Law, courts, legal procedures"
+    },
+    {
+      "category": "literature",
+      "files": ["literature.txt"],
+      "description": "Literary terms, genres, writing techniques"
+    },
+    {
+      "category": "medicine",
+      "files": ["medicine.txt"],
+      "description": "Medical conditions, treatments, healthcare"
+    },
+    {
+      "category": "people",
+      "files": ["people.txt"],
+      "description": "Professions, relationships, social roles"
+    },
+    {
+      "category": "sexology",
+      "files": ["sexology.txt"],
+      "description": "Human sexuality, reproductive health (clinical terms)"
+    },
+    {
+      "category": "slang",
+      "files": ["slang.txt", "slang_extra.txt"],
+      "description": "Informal English, colloquialisms"
+    },
+    {
+      "category": "society",
+      "files": ["society_extra.txt"],
+      "description": "Social structures, sociology terms"
+    },
+    {
+      "category": "office",
+      "files": ["office_extra.txt"],
+      "description": "Office and workplace vocabulary"
+    }
+  ]
+}

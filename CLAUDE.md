@@ -61,7 +61,7 @@ category_groups
 wordStates: Record<wordId, {
   familiarityScore: 0-6,        // SRS level
   lastSeenAt, nextReviewAt,     // Timestamps for spaced repetition
-  isFavorite, isSaved: boolean,
+  isFavorite: boolean,
   correctCount, incorrectCount,
   collections: string[]
 }>

@@ -15,7 +15,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
-        "foregroundImage": "./src/assets/images/adaptive-icon.png"
+        "foregroundImage": "./src/assets/images/icon.png"
       },
       "edgeToEdgeEnabled": true,
       "package": "lexica.db99.dev"
@@ -29,7 +29,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./src/assets/images/splash-icon.png",
+          "image": "./src/assets/images/icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

@@ -1,0 +1,7 @@
+# Ignore downloaded dictionary databases
+*.db
+*.sqlite
+*.txt
+
+# Keep this directory
+!.gitignore
